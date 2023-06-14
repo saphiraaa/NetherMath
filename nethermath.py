@@ -124,6 +124,18 @@ def kilometers_to_meters(kilometers):
     meters = kilometers * 1000
     return meters
 
+speed_of_light = 299792458
+
+def calculate_light_years(distance):
+    time = distance / speed_of_light
+    light_years = time / (365 * 24 * 60 * 60)  
+    return light_years
+
+def convert_light_years(light_years):
+    time = light_years * (365 * 24 * 60 * 60)
+    distance = time * speed_of_light
+    return distance
+
 def avogadro(number):
     exponent = 0
 
@@ -209,6 +221,22 @@ def binary_to_hexadecimal(binary):
     hexadecimal = decimal_to_hexadecimal(decimal)
     return hexadecimal
 
+def miles_to_km(miles):
+    km = miles * 1.60934
+    return km
+
+def km_to_miles(km):
+    miles = km / 1.60934
+    return miles
+
+def meters_to_miles(meters):
+    miles = meters / 1609.34
+    return miles
+
+def miles_to_meters(miles):
+    meters = miles * 1609.34
+    return meters
+
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
@@ -245,36 +273,42 @@ def view_calculations():
         print(f"{Fore.MAGENTA}No calculations found.{Style.RESET_ALL}")
 
 def scientific_calculator():
-    print(f"{Fore.CYAN}Choose your desired operator, dumbass:{Style.RESET_ALL}")
-    print(f"{Fore.MAGENTA}1. Add")
-    print(f"2. Subtract")
-    print(f"3. Multiply")
-    print(f"4. Divide")
-    print(f"5. Remainder")
-    print(f"6. Power")
-    print(f"7. Square Root")
-    print(f"8. Logarithm")
-    print(f"9. Sin")
-    print(f"10. Cos")
-    print(f"11. Tangent")
-    print(f"12. Pi")
-    print(f"13. Euler's Number")
-    print(f"14. Avogadros's Number")
-    print(f"15. Decimal to Binary")
-    print(f"16. Binary to Decimal")
-    print(f"17. Binary to Hexadecimal")
-    print(f"18. Hexadecimal to Binary")
-    print(f"19. Binary to Octal")
-    print(f"20. Octal to Binary")
-    print(f"21. Decimal to Hexadecimal")
-    print(f"22. Hexadecimal to Decimal")
-    print(f"23. Decimal to Octal")
-    print(f"24. Octal to Decimal")
-    print(f"25. Meters to Kilometers")
-    print(f"26. Kilometers to Meters")
-    print(f"27. Evaluate Mixed Operation")
-    print(f"28. View Previous Calculations")
-    print(f"Type 'Exit' to quit the program.{Style.RESET_ALL}")
+   # print(f"{Fore.CYAN}Choose your desired operator, dumbass:{Style.RESET_ALL}")
+   # print(f"{Fore.MAGENTA}1. Add")
+   # print(f"2. Subtract")
+   # print(f"3. Multiply")
+   # print(f"4. Divide")
+   # print(f"5. Remainder")
+   # print(f"6. Power")
+   # print(f"7. Square Root")
+   # print(f"8. Logarithm")
+   # print(f"9. Sin")
+   # print(f"10. Cos")
+   # print(f"11. Tangent")
+   # print(f"12. Pi")
+   # print(f"13. Euler's Number")
+   # print(f"14. Avogadros's Number")
+   # print(f"15. Decimal to Binary")
+   # print(f"16. Binary to Decimal")
+   # print(f"17. Binary to Hexadecimal")
+   # print(f"18. Hexadecimal to Binary")
+   # print(f"19. Binary to Octal")
+   # print(f"20. Octal to Binary")
+   # print(f"21. Decimal to Hexadecimal")
+   # print(f"22. Hexadecimal to Decimal")
+   # print(f"23. Decimal to Octal")
+   # print(f"24. Octal to Decimal")
+   # print(f"25. Meters to Kilometers")
+   # print(f"26. Kilometers to Meters")
+   # print(f"27. Kilometers to Light-years")
+   # print(f"28. Light-years to Kilometers")
+   # print(f"29. Miles to Kilometers")
+   # print(f"30. Kilometers to Miles")
+   # print(f"31. Meters to Miles")
+   # print(f"32. Miles to Meters")
+   # print(f"33. Evaluate Mixed Operation")
+   # print(f"34. View Previous Calculations")
+   # print(f"Type 'Exit' to quit the program.{Style.RESET_ALL}")
 
     while True:
         choice = input(f"{Fore.CYAN}\nEnter your choice:{Style.RESET_ALL} ")
@@ -443,13 +477,48 @@ def scientific_calculator():
                 print(f"{Fore.BLUE}{kilometers} kilometers is equal to {meters} meters.{Style.RESET_ALL}\n")
                 save_calculation2(f"{kilometers} kilometers", meters, "meters")
             elif choice == 27:
+                distance_kilometers = float(input(f"{Fore.CYAN}Enter distance in kilometers:{Style.RESET_ALL} "))
+                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                light_years = calculate_light_years(distance_kilometers)
+                print(f"{Fore.BLUE}Distance in light-years: {light_years:.16f}{Style.RESET_ALL}\n")
+                save_calculation2(f"{distance_kilometers} kilometers", light_years, "light-years")
+            elif choice == 28:
+                light_years = float(input(f"{Fore.CYAN}Enter distance in light-years:{Style.RESET_ALL} "))
+                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                distance_km = convert_light_years(light_years) / 1000
+                distance_exact = "{:.3e}".format(distance_km)
+                distance_exact = distance_exact.replace("e+12", "e+15")
+                print(f"{Fore.BLUE}Distance in kilometers: {distance_exact}{Style.RESET_ALL}\n")
+                save_calculation2(f"{light_years} light-years", distance_exact, "kilometers")
+            elif choice == 29:
+                miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
+                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                kilometers = miles_to_km(miles)
+                print(f"{Fore.BLUE}{miles} miles is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
+                save_calculation2(f"{miles} miles", kilometers, "kilometers")
+            elif choice == 30:
+                kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
+                miles = km_to_miles(kilometers)
+                print(f"{Fore.BLUE}{kilometers} kilometers is equal to {miles} miles.{Style.RESET_ALL}\n")
+                save_calculation2(f"{kilometers} kilometers", miles, "miles")
+            elif choice == 31:
+                meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
+                miles = meters_to_miles(meters)
+                print(f"{Fore.BLUE}{meters} meters is equal to {miles} miles.{Style.RESET_ALL}\n")
+                save_calculation2(f"{meters} meters", miles, "miles")
+            elif choice == 32:
+                miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
+                meters = miles_to_meters(miles)
+                print(f"{Fore.BLUE}{miles} miles is equal to {meters} meters.{Style.RESET_ALL}\n")
+                save_calculation2(f"{miles} miles", meters, "meters")
+            elif choice == 33:
                 expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                 print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                 result = evaluate_expression(expression)
                 if result is not None:
                     print(f"{Fore.BLUE}Result:{Style.RESET_ALL} {Fore.YELLOW}{result}{Style.RESET_ALL}\n")
                     save_calculation(expression, result)
-            elif choice == 28:
+            elif choice == 34:
                 print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                 view_calculations()
 
