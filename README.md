@@ -8,7 +8,17 @@ Clone the repository using this command:
 
 `https://github.com/saphiraaa/NetherMath`
 
+Navigate to the directory:
 
+`cd NetherMath`
+
+Install the necessary requirements:
+
+`pip3 install -r requirements.txt`
+
+Run the script:
+
+`python3 nethermath.py`
 
 ## Usage
 
