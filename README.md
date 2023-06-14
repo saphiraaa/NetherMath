@@ -64,6 +64,7 @@ This Python program is a scientific calculator that performs various mathematica
 32. Miles to Meters
 33. Evaluate Mixed Operation
 34. View Previous Calculations
+    
 Type 'Exit' to quit the program.
 
 ## Usage Example
