@@ -2,11 +2,13 @@
 
 This Python program is a scientific calculator that performs various mathematical operations. It includes functions for basic arithmetic operations, trigonometric functions, logarithms, exponentiation, conversions, and more.
 
-## Requirements
+## Installation
 
-- Python 3.x
-- colorama module
-- numpy module
+Clone the repository using this command:
+
+`https://github.com/saphiraaa/NetherMath`
+
+
 
 ## Usage
 
