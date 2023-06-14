@@ -22,7 +22,7 @@ Run the script using the command:
 
 `python3 nethermath.py`
 
-Enter the number of yout desired operator.
+Enter the number of your desired operator.
 
 ## Features
 
@@ -87,7 +87,7 @@ Type 'Exit' to quit the program.
 ## Note
 
 - The password for accessing the program is set to "Shredder". Modify the `password` variable in the code to change it.
-- The calculations are saved to a file named "calculations.txt" in the "/root/Extensions/" directory. Modify the file path in the code if needed.
+- The calculations are saved to a file named "calculations.txt" in the NetherMath directory. Modify the file path in the code if needed.
 
 ## Exit
 
