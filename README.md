@@ -1,82 +1,89 @@
 # NetherMath
 
-This is a command-line scientific calculator program written in Python. It provides various mathematical operations and utility functions.
-
-## Features
-
-- Basic arithmetic operations: addition, subtraction, multiplication, division, and remainder.
-- Advanced operations: power, square root, logarithm, sine, cosine, and tangent.
-- Constants: π (pi) and Euler's number (e).
-- Unit conversions: meters to kilometers and kilometers to meters.
-- Number system conversions: binary to decimal, decimal to binary, hexadecimal to decimal, decimal to hexadecimal, octal to decimal, and decimal to octal.
-- Avogadro's number calculation.
-- Evaluate mixed mathematical expressions.
-- Save and view previous calculations.
+This Python program is a scientific calculator that performs various mathematical operations. It includes functions for basic arithmetic operations, trigonometric functions, logarithms, exponentiation, conversions, and more.
 
 ## Requirements
 
 - Python 3.x
-- colorama library
-
-## Installation
-
-1. Clone the repository or download the code files.
-2. Install the colorama library by running the following command: `pip install colorama`
+- colorama module
+- numpy module
 
 ## Usage
 
-1. Open a terminal or command prompt.
-2. Navigate to the directory containing the code files.
-3. Run the program by executing the following command: `python calculator.py`
-4. Enter the password (default: Shredder) to access the calculator.
-5. Follow the on-screen instructions to perform calculations.
-6. Type 'Exit' to quit the program.
+1. Open the terminal or command prompt.
+2. Navigate to the directory where the Python script is located.
+3. Run the script using the command: `python calculator.py`
+4. Enter the number of your desired operator.
 
-## Examples
+## Features
 
-### Addition
+- Basic arithmetic operations: addition, subtraction, multiplication, division, and remainder.
+- Exponentiation and square root.
+- Trigonometric functions: sine, cosine, and tangent.
+- Logarithmic functions.
+- Conversion between different number systems: decimal, binary, hexadecimal, and octal.
+- Conversion between different units of distance: meters, kilometers, and miles.
+- Calculation of Pi (π) and Euler's number (e).
+- Avogadro's number calculation.
+- Evaluation of mixed mathematical expressions.
+- Saving and viewing previous calculations.
 
-Enter your choice: 1
-Enter the first number: 5
-Enter the second number: 3
-Result: 8.0
+## Commands
 
+1. Add
+2. Subtract
+3. Multiply
+4. Divide
+5. Remainder
+6. Power
+7. Square Root
+8. Logarithm
+9. Sin
+10. Cos
+11. Tangent
+12. Pi
+13. Euler's Number
+14. Avogadros's Number
+15. Decimal to Binary
+16. Binary to Decimal
+17. Binary to Hexadecimal
+18. Hexadecimal to Binary
+19. Binary to Octal
+20. Octal to Binary
+21. Decimal to Hexadecimal
+22. Hexadecimal to Decimal
+23. Decimal to Octal
+24. Octal to Decimal
+25. Meters to Kilometers
+26. Kilometers to Meters
+27. Kilometers to Light-years
+28. Light-years to Kilometers
+29. Miles to Kilometers
+30. Kilometers to Miles
+31. Meters to Miles
+32. Miles to Meters
+33. Evaluate Mixed Operation
+34. View Previous Calculations
+Type 'Exit' to quit the program.
 
-### Square Root
+## Usage Example
 
-Enter your choice: 7
-Enter the number: 16
-Result: 4.0
+1. Upon running the script, a password prompt will appear. Enter the password to proceed.
+2. After successful authentication, the calculator menu will be displayed.
+3. Enter the number corresponding to the desired operation and follow the prompts to input the required values.
+4. The result of the calculation will be displayed, and you will have the option to save the calculation for future reference.
+5. To view previous calculations, choose the corresponding option from the menu.
 
+## Note
 
-### Evaluate Mixed Operation
+- The password for accessing the program is set to "Shredder". Modify the `password` variable in the code to change it.
+- The calculations are saved to a file named "calculations.txt" in the "/root/Extensions/" directory. Modify the file path in the code if needed.
 
-Enter your choice: 27
-Enter the expression: 2 + 3 * 4 - 1
-Result: 13.0
+## Exit
 
+To exit the calculator, type "exit" when prompted for your choice.
 
-### View Previous Calculations
+## Developer
 
-Enter your choice: 28
-Previous Calculations:
-2023-06-11 14:30:45: 5 + 3 = 8.0
-2023-06-11 14:31:25: √16 = 4.0
-
-## Disclaimer
-
-The code provided in this repository is provided "as is" without warranty of any kind, express or implied. The author(s) of this code make no claims or guarantees regarding its accuracy, reliability, or suitability for any purpose.
-
-## Usage
-
-You are free to use, modify, and distribute the code in this repository for both personal and commercial purposes without any obligations or restrictions. Feel free to incorporate it into your own projects, products, or services.
-
-## Attribution
-
-While not required, it would be appreciated if you could provide attribution to the original source of this code by including a link to this repository or mentioning the author(s) in your project documentation or acknowledgments.
-
-## Contributing
-
-Contributions to this project are welcome. If you find any issues or have suggestions for improvements, please submit a pull request or open an issue in this repository.
-
+This code is created by Navi/Saphiraaa...
 
