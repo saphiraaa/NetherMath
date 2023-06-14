@@ -4,11 +4,13 @@ This Python program is a scientific calculator that performs various mathematica
 
 ## Installation
 
+Open the terminal or command prompt
+
 Clone the repository using this command:
 
 `https://github.com/saphiraaa/NetherMath`
 
-Navigate to the directory:
+Navigate to the directory where the Python script is located:
 
 `cd NetherMath`
 
@@ -16,16 +18,11 @@ Install the necessary requirements:
 
 `pip3 install -r requirements.txt`
 
-Run the script:
+Run the script using the command:
 
 `python3 nethermath.py`
 
-## Usage
-
-1. Open the terminal or command prompt.
-2. Navigate to the directory where the Python script is located.
-3. Run the script using the command: `python calculator.py`
-4. Enter the number of your desired operator.
+Enter the number of yout desired operator.
 
 ## Features
 
