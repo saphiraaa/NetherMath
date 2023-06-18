@@ -1,4 +1,4 @@
-# NetherMath
+t# NetherMath
 
 This Python program is a scientific calculator that performs various mathematical operations. It includes functions for basic arithmetic operations, trigonometric functions, logarithms, exponentiation, conversions, and more.
 
@@ -73,8 +73,11 @@ Enter the number of your desired operator.
 32. Miles to Meters
 33. Evaluate Mixed Operation
 34. View Previous Calculations
-    
-Type 'Exit' to quit the program.
+
+Type 'h' or 'help' to list all the options available.
+
+Type 'Exit' or ^C to quit the program.
+
 
 ## Usage Example
 
