@@ -128,7 +128,7 @@ speed_of_light = 299792458
 
 def calculate_light_years(distance):
     time = distance / speed_of_light
-    light_years = time / (365 * 24 * 60 * 60)  
+    light_years = time / (365 * 24 * 60 * 60)
     return light_years
 
 def convert_light_years(light_years):
@@ -241,289 +241,301 @@ def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                                              
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                         
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation3(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def view_calculations():
     try:
-        with open("calculations.txt", "r") as file:
+        with open("/root/Extensions/calculations.txt", "r") as file:
             calculations = file.read()
             print(f"{Fore.BLUE}Previous Calculations:{Style.RESET_ALL}{Fore.YELLOW}\n{calculations}{Style.RESET_ALL}")
     except FileNotFoundError:
         print(f"{Fore.MAGENTA}No calculations found.{Style.RESET_ALL}")
 
 def scientific_calculator():
-   # print(f"{Fore.CYAN}Choose your desired operator, dumbass:{Style.RESET_ALL}")
-   # print(f"{Fore.MAGENTA}1. Add")
-   # print(f"2. Subtract")
-   # print(f"3. Multiply")
-   # print(f"4. Divide")
-   # print(f"5. Remainder")
-   # print(f"6. Power")
-   # print(f"7. Square Root")
-   # print(f"8. Logarithm")
-   # print(f"9. Sin")
-   # print(f"10. Cos")
-   # print(f"11. Tangent")
-   # print(f"12. Pi")
-   # print(f"13. Euler's Number")
-   # print(f"14. Avogadros's Number")
-   # print(f"15. Decimal to Binary")
-   # print(f"16. Binary to Decimal")
-   # print(f"17. Binary to Hexadecimal")
-   # print(f"18. Hexadecimal to Binary")
-   # print(f"19. Binary to Octal")
-   # print(f"20. Octal to Binary")
-   # print(f"21. Decimal to Hexadecimal")
-   # print(f"22. Hexadecimal to Decimal")
-   # print(f"23. Decimal to Octal")
-   # print(f"24. Octal to Decimal")
-   # print(f"25. Meters to Kilometers")
-   # print(f"26. Kilometers to Meters")
-   # print(f"27. Kilometers to Light-years")
-   # print(f"28. Light-years to Kilometers")
-   # print(f"29. Miles to Kilometers")
-   # print(f"30. Kilometers to Miles")
-   # print(f"31. Meters to Miles")
-   # print(f"32. Miles to Meters")
-   # print(f"33. Evaluate Mixed Operation")
-   # print(f"34. View Previous Calculations")
-   # print(f"Type 'Exit' to quit the program.{Style.RESET_ALL}")
+    options = """
+1. Add
+2. Subtract
+3. Multiply
+4. Divide
+5. Remainder
+6. Power
+7. Square Root
+8. Logarithm
+9. Sin
+10. Cos
+11. Tangent
+12. Pi
+13. Euler's Number
+14. Avogadros's Number
+15. Decimal to Binary
+16. Binary to Decimal
+17. Binary to Hexadecimal
+18. Hexadecimal to Binary
+19. Binary to Octal
+20. Octal to Binary
+21. Decimal to Hexadecimal
+22. Hexadecimal to Decimal
+23. Decimal to Octal
+24. Octal to Decimal
+25. Meters to Kilometers
+26. Kilometers to Meters
+27. Kilometers to Light-years
+28. Light-years to Kilometers
+29. Miles to Kilometers
+30. Kilometers to Miles
+31. Meters to Miles
+32. Miles to Meters
+33. Evaluate Mixed Operation
+34. View Previous Calculations
 
-    while True:
-        choice = input(f"{Fore.CYAN}\nEnter your choice:{Style.RESET_ALL} ")
+Type 'Exit' to quit the program.
+    """
+    try:
+        while True:
+            choice = input(f"{Fore.CYAN}\nEnter your choice:{Style.RESET_ALL} ")
 
-        if choice.lower() == "exit":
-            print(f"{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
-            time.sleep(5)
-            print(f"{Fore.CYAN}You're really suck in math! Well me too!:){Style.RESET_ALL}")
-            break
-        elif choice.isdigit():
-            choice = int(choice)
-            if choice >= 1 and choice <= 11:
-                if choice <= 5:
-                    x = float(input(f"{Fore.CYAN}Enter the first number:{Style.RESET_ALL} "))
-                    y = float(input(f"{Fore.CYAN}Enter the second number:{Style.RESET_ALL} "))
+            if choice.lower() == "exit":
+                print(f"{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
+                time.sleep(5)
+                print(f"{Fore.CYAN}You're really suck in math! Well me too!:){Style.RESET_ALL}")
+                break
+            elif choice.lower() == "h" or choice.lower() == "help":
+                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                print(f"{Fore.BLUE}", options)
+            elif choice.isdigit():
+                choice = int(choice)
+                if choice >= 1 and choice <= 11:
+                    if choice <= 5:
+                        x = float(input(f"{Fore.CYAN}Enter the first number:{Style.RESET_ALL} "))
+                        y = float(input(f"{Fore.CYAN}Enter the second number:{Style.RESET_ALL} "))
 
-                    if choice == 1:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = add(x, y)
-                        print(f"{Fore.BLUE}Result: {add(x, y)}{Style.RESET_ALL}\n")
-                        save_calculation(f"{x} + {y}", result)
-                    elif choice == 2:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = subtract(x, y)
-                        print(f"{Fore.BLUE}Result: {subtract(x, y)}{Style.RESET_ALL}\n")
-                        save_calculation(f"{x} - {y}", result)
-                    elif choice == 3:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = multiply(x, y)
-                        print(f"{Fore.BLUE}Result: {multiply(x, y)}{Style.RESET_ALL}\n")
-                        save_calculation(f"{x} * {y}", result)
-                    elif choice == 4:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = divide(x, y)
-                        if result is not None:
-                            print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
-                            save_calculation(f"{x} / {y}", result)
-                    elif choice == 5:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = remainder(x, y)
-                        print(f"{Fore.BLUE}Result: {remainder(x, y)}{Style.RESET_ALL}\n")
-                        save_calculation(f"{x} % {y}", result)
+                        if choice == 1:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = add(x, y)
+                            print(f"{Fore.BLUE}Result: {add(x, y)}{Style.RESET_ALL}\n")
+                            save_calculation(f"{x} + {y}", result)
+                        elif choice == 2:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = subtract(x, y)
+                            print(f"{Fore.BLUE}Result: {subtract(x, y)}{Style.RESET_ALL}\n")
+                            save_calculation(f"{x} - {y}", result)
+                        elif choice == 3:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = multiply(x, y)
+                            print(f"{Fore.BLUE}Result: {multiply(x, y)}{Style.RESET_ALL}\n")
+                            save_calculation(f"{x} * {y}", result)
+                        elif choice == 4:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = divide(x, y)
+                            if result is not None:
+                                print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
+                                save_calculation(f"{x} / {y}", result)
+                        elif choice == 5:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = remainder(x, y)
+                            print(f"{Fore.BLUE}Result: {remainder(x, y)}{Style.RESET_ALL}\n")
+                            save_calculation(f"{x} % {y}", result)
+                    else:
+                        x = float(input(f"{Fore.CYAN}Enter the number:{Style.RESET_ALL} "))
+
+                        if choice == 6:
+                            y = float(input(f"{Fore.CYAN}Enter the exponent:{Style.RESET_ALL} "))
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = power(x, y)
+                            print(f"{Fore.BLUE}Result: {power(x, y)}{Style.RESET_ALL}\n")
+                            save_calculation(f"{x} ^ {y}", result)
+                        elif choice == 7:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = square_root(x)
+                            print(f"{Fore.BLUE}Result: {square_root(x)}{Style.RESET_ALL}\n")
+                            save_calculation(f"√{x}", result)
+                        elif choice == 8:
+                            base = float(input(f"{Fore.CYAN}Enter the base:{Style.RESET_ALL} "))
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = logarithm(x, base)
+                            print(f"{Fore.BLUE}Result: {logarithm(x, base)}{Style.RESET_ALL}\n")
+                            save_calculation(f"log{base}({x})", result)
+                        elif choice == 9:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = sin(x)
+                            print(f"{Fore.BLUE}Result: {sin(x)}{Style.RESET_ALL}\n")
+                            save_calculation(f"sin({x})", result)
+                        elif choice == 10:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = cos(x)
+                            print(f"{Fore.BLUE}Result: {cos(x)}{Style.RESET_ALL}\n")
+                            save_calculation(f"cos({x})", result)
+                        elif choice == 11:
+                            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                            result = tan(x)
+                            print(f"{Fore.BLUE}Result: {tan(x)}{Style.RESET_ALL}\n")
+                            save_calculation(f"tan({x})", result)
+                elif choice == 12:
+                    iterations = int(input(f"{Fore.CYAN}Enter the number of iterations to approximate π:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = calculate_pi(iterations)
+                    print(f"{Fore.BLUE}Approximation of π:{Style.RESET_ALL} {Fore.YELLOW}{result}{Style.RESET_ALL}\n")
+                    save_calculation("π", result)
+                elif choice == 13:
+                    iterations2 = int(input(f"{Fore.CYAN}Enter the number of iterations to approximate e:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = calculate_e(iterations2)
+                    print(f"{Fore.BLUE}Approximation of e:{Style.RESET_ALL} {Fore.YELLOW}{result}{Style.RESET_ALL}\n")
+                    save_calculation("e", result)
+                elif choice == 14:
+                    number = float(input(f"{Fore.CYAN}Enter a number:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result, exponent = avogadro(number)
+                    print(f"{Fore.BLUE}The number {number} can be represented as {result:.3f} * 10^{exponent}{Style.RESET_ALL}\n")
+                    save_calculation3(f"{number}", result, exponent)
+                elif choice == 15:
+                    decimal_number = int(input(f"{Fore.CYAN}Enter a decimal number:{Style.RESET_ALL} "))
+                    binary_number = decimal_to_binary(decimal_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
+                    save_calculation(decimal_number, binary_number)
+                elif choice == 16:
+                    binary_number = input(f"{Fore.CYAN}Enter a binary number:{Style.RESET_ALL} ")
+                    decimal_number = binary_to_decimal(binary_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
+                    save_calculation(binary_number, decimal_number)
+                elif choice == 17:
+                    binary_number = input(f"{Fore.CYAN}Enter a binary number:{Style.RESET_ALL} ")
+                    hexadecimal_number = binary_to_hexadecimal(binary_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Hexadecimal representation:", hexadecimal_number, "\n")
+                    save_calculation(binary_number, hexadecimal_number)
+                elif choice == 18:
+                    hexadecimal_number = input(f"{Fore.CYAN}Enter a hexadecimal number:{Style.RESET_ALL} ")
+                    binary_number = hexadecimal_to_binary(hexadecimal_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
+                    save_calculation(hexadecimal_number, binary_number)
+                elif choice == 19:
+                    binary_number = input(f"{Fore.CYAN}Enter a binary number:{Style.RESET_ALL} ")
+                    octal_number = binary_to_octal(binary_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Octal representation:", octal_number, "\n")
+                    save_calculation(binary_number, octal_number)
+                elif choice == 20:
+                    octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
+                    binary_number = octal_to_binary(octal_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
+                    save_calculation(octal_number, binary_number)
+                elif choice == 21:
+                    decimal_number = int(input(f"{Fore.CYAN}Enter a decimal number:{Style.RESET_ALL} "))
+                    hexadecimal_number = decimal_to_hexadecimal(decimal_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Hexadecimal representation:", hexadecimal_number, "\n")
+                    save_calculation(decimal_number, hexadecimal_number)
+                elif choice == 22:
+                    hexadecimal_number = input(f"{Fore.CYAN}Enter a hexadecimal number:{Style.RESET_ALL} ")
+                    decimal_number = hexadecimal_to_decimal(hexadecimal_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
+                    save_calculation(hexadecimal_number, decimal_number)
+                elif choice == 23:
+                    decimal_number = int(input(f"{Fore.CYAN}Enter a decimal number:{Style.RESET_ALL} "))
+                    octal_number = decimal_to_octal(decimal_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Octal representation:", octal_number, "\n")
+                    save_calculation(decimal_number, octal_number)
+                elif choice == 24:
+                    octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
+                    decimal_number = octal_to_decimal(octal_number)
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
+                    save_calculation(octal_number, decimal_number)
+                elif choice == 25:
+                    meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    kilometers = meters_to_kilometers(meters)
+                    print(f"{Fore.BLUE}{meters} meters is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{meters} meters", kilometers, "kilometers")
+                elif choice == 26:
+                    kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    meters = kilometers_to_meters(kilometers)
+                    print(f"{Fore.BLUE}{kilometers} kilometers is equal to {meters} meters.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{kilometers} kilometers", meters, "meters")
+                elif choice == 27:
+                    distance_kilometers = float(input(f"{Fore.CYAN}Enter distance in kilometers:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    light_years = calculate_light_years(distance_kilometers)
+                    print(f"{Fore.BLUE}Distance in light-years: {light_years:.16f}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{distance_kilometers} kilometers", light_years, "light-years")
+                elif choice == 28:
+                    light_years = float(input(f"{Fore.CYAN}Enter distance in light-years:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    distance_km = convert_light_years(light_years) / 1000
+                    distance_exact = "{:.3e}".format(distance_km)
+                    distance_exact = distance_exact.replace("e+12", "e+15")
+                    print(f"{Fore.BLUE}Distance in kilometers: {distance_exact}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{light_years} light-years", distance_exact, "kilometers")
+                elif choice == 29:
+                    miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    kilometers = miles_to_km(miles)
+                    print(f"{Fore.BLUE}{miles} miles is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{miles} miles", kilometers, "kilometers")
+                elif choice == 30:
+                    kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
+                    miles = km_to_miles(kilometers)
+                    print(f"{Fore.BLUE}{kilometers} kilometers is equal to {miles} miles.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{kilometers} kilometers", miles, "miles")
+                elif choice == 31:
+                    meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
+                    miles = meters_to_miles(meters)
+                    print(f"{Fore.BLUE}{meters} meters is equal to {miles} miles.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{meters} meters", miles, "miles")
+                elif choice == 32:
+                    miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
+                    meters = miles_to_meters(miles)
+                    print(f"{Fore.BLUE}{miles} miles is equal to {meters} meters.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{miles} miles", meters, "meters")
+                elif choice == 33:
+                    expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = evaluate_expression(expression)
+                    if result is not None:
+                        print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
+                        save_calculation(expression, result)
+                elif choice == 34:
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    view_calculations()
                 else:
-                    x = float(input(f"{Fore.CYAN}Enter the number:{Style.RESET_ALL} "))
-        
-                    if choice == 6:
-                        y = float(input(f"{Fore.CYAN}Enter the exponent:{Style.RESET_ALL} "))
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = power(x, y)
-                        print(f"{Fore.BLUE}Result: {power(x, y)}{Style.RESET_ALL}\n")
-                        save_calculation(f"{x} ^ {y}", result)
-                    elif choice == 7:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = square_root(x)
-                        print(f"{Fore.BLUE}Result: {square_root(x)}{Style.RESET_ALL}\n")
-                        save_calculation(f"√{x}", result)
-                    elif choice == 8:
-                        base = float(input(f"{Fore.CYAN}Enter the base:{Style.RESET_ALL} "))
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = logarithm(x, base)
-                        print(f"{Fore.BLUE}Result: {logarithm(x, base)}{Style.RESET_ALL}\n")
-                        save_calculation(f"log{base}({x})", result)
-                    elif choice == 9:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = sin(x)
-                        print(f"{Fore.BLUE}Result: {sin(x)}{Style.RESET_ALL}\n")
-                        save_calculation(f"sin({x})", result)
-                    elif choice == 10:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = cos(x)
-                        print(f"{Fore.BLUE}Result: {cos(x)}{Style.RESET_ALL}\n")
-                        save_calculation(f"cos({x})", result)
-                    elif choice == 11:
-                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        result = tan(x)
-                        print(f"{Fore.BLUE}Result: {tan(x)}{Style.RESET_ALL}\n")
-                        save_calculation(f"tan({x})", result)
-            elif choice == 12:
-                iterations = int(input(f"{Fore.CYAN}Enter the number of iterations to approximate π:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                result = calculate_pi(iterations)
-                print(f"{Fore.BLUE}Approximation of π:{Style.RESET_ALL} {Fore.YELLOW}{result}{Style.RESET_ALL}\n")
-                save_calculation("π", result)
-            elif choice == 13:
-                iterations2 = int(input(f"{Fore.CYAN}Enter the number of iterations to approximate e:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                result = calculate_e(iterations2)
-                print(f"{Fore.BLUE}Approximation of e:{Style.RESET_ALL} {Fore.YELLOW}{result}{Style.RESET_ALL}\n")
-                save_calculation("e", result)
-            elif choice == 14:
-                number = float(input(f"{Fore.CYAN}Enter a number:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                result, exponent = avogadro(number)
-                print(f"{Fore.BLUE}The number {number} can be represented as {result:.3f} * 10^{exponent}{Style.RESET_ALL}\n")
-                save_calculation3(f"{number}", result, exponent)
-            elif choice == 15:
-                decimal_number = int(input(f"{Fore.CYAN}Enter a decimal number:{Style.RESET_ALL} "))
-                binary_number = decimal_to_binary(decimal_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
-                save_calculation(decimal_number, binary_number)
-            elif choice == 16:
-                binary_number = input(f"{Fore.CYAN}Enter a binary number:{Style.RESET_ALL} ")
-                decimal_number = binary_to_decimal(binary_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
-                save_calculation(binary_number, decimal_number)
-            elif choice == 17:
-                binary_number = input(f"{Fore.CYAN}Enter a binary number:{Style.RESET_ALL} ")
-                hexadecimal_number = binary_to_hexadecimal(binary_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Hexadecimal representation:", hexadecimal_number, "\n")
-                save_calculation(binary_number, hexadecimal_number)
-            elif choice == 18:
-                hexadecimal_number = input(f"{Fore.CYAN}Enter a hexadecimal number:{Style.RESET_ALL} ")
-                binary_number = hexadecimal_to_binary(hexadecimal_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
-                save_calculation(hexadecimal_number, binary_number)
-            elif choice == 19:
-                binary_number = input(f"{Fore.CYAN}Enter a binary number:{Style.RESET_ALL} ")
-                octal_number = binary_to_octal(binary_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Octal representation:", octal_number, "\n")
-                save_calculation(binary_number, octal_number)
-            elif choice == 20:
-                octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
-                binary_number = octal_to_binary(octal_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
-                save_calculation(octal_number, binary_number)
-            elif choice == 21:
-                decimal_number = int(input(f"{Fore.CYAN}Enter a decimal number:{Style.RESET_ALL} "))
-                hexadecimal_number = decimal_to_hexadecimal(decimal_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Hexadecimal representation:", hexadecimal_number, "\n")
-                save_calculation(decimal_number, hexadecimal_number)
-            elif choice == 22:
-                hexadecimal_number = input(f"{Fore.CYAN}Enter a hexadecimal number:{Style.RESET_ALL} ")
-                decimal_number = hexadecimal_to_decimal(hexadecimal_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
-                save_calculation(hexadecimal_number, decimal_number)
-            elif choice == 23:
-                decimal_number = int(input(f"{Fore.CYAN}Enter a decimal number:{Style.RESET_ALL} "))
-                octal_number = decimal_to_octal(decimal_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Octal representation:", octal_number, "\n")
-                save_calculation(decimal_number, octal_number)
-            elif choice == 24:
-                octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
-                decimal_number = octal_to_decimal(octal_number)
-                print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
-                save_calculation(octal_number, decimal_number)
-            elif choice == 25:
-                meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                kilometers = meters_to_kilometers(meters)
-                print(f"{Fore.BLUE}{meters} meters is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
-                save_calculation2(f"{meters} meters", kilometers, "kilometers")
-            elif choice == 26:
-                kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                meters = kilometers_to_meters(kilometers)
-                print(f"{Fore.BLUE}{kilometers} kilometers is equal to {meters} meters.{Style.RESET_ALL}\n")
-                save_calculation2(f"{kilometers} kilometers", meters, "meters")
-            elif choice == 27:
-                distance_kilometers = float(input(f"{Fore.CYAN}Enter distance in kilometers:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                light_years = calculate_light_years(distance_kilometers)
-                print(f"{Fore.BLUE}Distance in light-years: {light_years:.16f}{Style.RESET_ALL}\n")
-                save_calculation2(f"{distance_kilometers} kilometers", light_years, "light-years")
-            elif choice == 28:
-                light_years = float(input(f"{Fore.CYAN}Enter distance in light-years:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                distance_km = convert_light_years(light_years) / 1000
-                distance_exact = "{:.3e}".format(distance_km)
-                distance_exact = distance_exact.replace("e+12", "e+15")
-                print(f"{Fore.BLUE}Distance in kilometers: {distance_exact}{Style.RESET_ALL}\n")
-                save_calculation2(f"{light_years} light-years", distance_exact, "kilometers")
-            elif choice == 29:
-                miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                kilometers = miles_to_km(miles)
-                print(f"{Fore.BLUE}{miles} miles is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
-                save_calculation2(f"{miles} miles", kilometers, "kilometers")
-            elif choice == 30:
-                kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
-                miles = km_to_miles(kilometers)
-                print(f"{Fore.BLUE}{kilometers} kilometers is equal to {miles} miles.{Style.RESET_ALL}\n")
-                save_calculation2(f"{kilometers} kilometers", miles, "miles")
-            elif choice == 31:
-                meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
-                miles = meters_to_miles(meters)
-                print(f"{Fore.BLUE}{meters} meters is equal to {miles} miles.{Style.RESET_ALL}\n")
-                save_calculation2(f"{meters} meters", miles, "miles")
-            elif choice == 32:
-                miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
-                meters = miles_to_meters(miles)
-                print(f"{Fore.BLUE}{miles} miles is equal to {meters} meters.{Style.RESET_ALL}\n")
-                save_calculation2(f"{miles} miles", meters, "meters")
-            elif choice == 33:
-                expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                result = evaluate_expression(expression)
-                if result is not None:
-                    print(f"{Fore.BLUE}Result:{Style.RESET_ALL} {Fore.YELLOW}{result}{Style.RESET_ALL}\n")
-                    save_calculation(expression, result)
-            elif choice == 34:
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                view_calculations()
-
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    print(f"{Fore.MAGENTA}Error: Invalid choice!!! Please enter a valid choice.{Style.RESET_ALL}\n")
             else:
                 print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                print(f"{Fore.MAGENTA}Error: Invalid Choice!!!{Style.RESET_ALL}")
+                print(f"{Fore.MAGENTA}Error: Invalid choice! Please enter a valid choice.{Style.RESET_ALL}\n")
+
+    except KeyboardInterrupt:
+        print(f"\n{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
+        time.sleep(5)
+        print(f"{Fore.CYAN}You're really suck in math! Well me too!:){Style.RESET_ALL}")
 
 scientific_calculator()
