@@ -310,7 +310,7 @@ List of Options:
 33. Evaluate Mixed Operation
 34. View Previous Calculations
 
-Type 'Exit' to quit the program.
+Type 'Exit' or ^C to quit the program.
     """
     try:
         while True:
