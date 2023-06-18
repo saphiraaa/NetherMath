@@ -274,6 +274,7 @@ def view_calculations():
 
 def scientific_calculator():
     options = """
+List of Options:
 1. Add
 2. Subtract
 3. Multiply
