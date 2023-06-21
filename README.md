@@ -39,6 +39,7 @@ Enter the number of your desired operator.
 
 ## Commands
 
+## Mathematical Operators
 1. Add
 2. Subtract
 3. Multiply
@@ -46,6 +47,8 @@ Enter the number of your desired operator.
 5. Remainder
 6. Power
 7. Square Root
+
+## Mathematical Functions
 8. Logarithm
 9. Sin
 10. Cos
@@ -53,6 +56,8 @@ Enter the number of your desired operator.
 12. Pi
 13. Euler's Number
 14. Avogadros's Number
+
+## Conversion Methods
 15. Decimal to Binary
 16. Binary to Decimal
 17. Binary to Hexadecimal
@@ -67,6 +72,8 @@ Enter the number of your desired operator.
 26. Binary to Text
 27. Octal to Hexadecimal
 28. Hexadecimal to Octal
+
+## Distance Measures
 29. Meters to Kilometers
 30. Kilometers to Meters
 31. Kilometers to Light-years
@@ -75,6 +82,8 @@ Enter the number of your desired operator.
 34. Kilometers to Miles
 35. Meters to Miles
 36. Miles to Meters
+
+## Other Options
 37. Evaluate Mixed Operation
 38. View Previous Calculations
 
