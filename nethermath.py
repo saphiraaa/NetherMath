@@ -202,6 +202,11 @@ def decimal_to_octal(decimal):
     return octal
 
 def octal_to_decimal(octal):
+    for digit in str(octal):
+        if digit not in "01234567":
+            print(f"{Fore.RED}Error: Invalid octal number. Please enter a number within the range of 0-7.{Style.RESET_ALL}")
+            return None
+
     decimal = 0
     power = 0
     for digit in reversed(octal):
@@ -215,6 +220,11 @@ def binary_to_octal(binary):
     return octal
 
 def octal_to_binary(octal):
+    for digit in str(octal):
+        if digit not in "01234567":
+            print(f"{Fore.RED}Error: Invalid octal number. Please enter a number within the range of 0-7.{Style.RESET_ALL}")
+            return None
+
     decimal = octal_to_decimal(octal)
     binary = decimal_to_binary(decimal)
     return binary
@@ -260,6 +270,11 @@ def binary_to_text(binary):
     return text
 
 def octal_to_hexadecimal(octal_number):
+    for digit in str(octal_number):
+        if digit not in "01234567":
+            print(f"{Fore.RED}Error: Invalid octal number. Please enter a number within the range of 0-7.{Style.RESET_ALL}")
+            return None
+
     decimal_number = int(str(octal_number), 8)
     hexadecimal_number = hex(decimal_number)[2:].upper()
     return hexadecimal_number
@@ -273,32 +288,32 @@ def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")          
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                         
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation3(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def view_calculations():
     try:
-        with open("calculations.txt", "r") as file:
+        with open("/root/Extensions/calculations.txt", "r") as file:
             calculations = file.read()
             print(f"{Fore.BLUE}Previous Calculations:{Style.RESET_ALL}{Fore.YELLOW}\n{calculations}{Style.RESET_ALL}")
     except FileNotFoundError:
@@ -306,6 +321,7 @@ def view_calculations():
 
 def scientific_calculator():
     options = """
+Mathematical Operators
 1. Add
 2. Subtract
 3. Multiply
@@ -313,6 +329,8 @@ def scientific_calculator():
 5. Remainder
 6. Power
 7. Square Root
+
+Mathematical Functions
 8. Logarithm
 9. Sin
 10. Cos
@@ -320,6 +338,8 @@ def scientific_calculator():
 12. Pi
 13. Euler's Number
 14. Avogadros's Number
+
+Conversion Methods
 15. Decimal to Binary
 16. Binary to Decimal
 17. Binary to Hexadecimal
@@ -334,6 +354,8 @@ def scientific_calculator():
 26. Binary to Text
 27. Octal to Hexadecimal
 28. Hexadecimal to Octal
+
+Distance Measures
 29. Meters to Kilometers
 30. Kilometers to Meters
 31. Kilometers to Light-years
@@ -342,6 +364,8 @@ def scientific_calculator():
 34. Kilometers to Miles
 35. Meters to Miles
 36. Miles to Meters
+
+Other Options
 37. Evaluate Mixed Operation
 38. View Previous Calculations
 
@@ -477,10 +501,11 @@ Type 'Exit' to quit the program.
                     save_calculation(binary_number, octal_number)
                 elif choice == 20:
                     octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
-                    binary_number = octal_to_binary(octal_number)
                     print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                    print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
-                    save_calculation(octal_number, binary_number)
+                    binary_number = octal_to_binary(octal_number)
+                    if binary_number is not None:
+                        print(f"{Fore.BLUE}Binary representation:", binary_number, "\n")
+                        save_calculation(octal_number, binary_number)
                 elif choice == 21:
                     decimal_number = int(input(f"{Fore.CYAN}Enter a decimal number:{Style.RESET_ALL} "))
                     hexadecimal_number = decimal_to_hexadecimal(decimal_number)
@@ -501,10 +526,11 @@ Type 'Exit' to quit the program.
                     save_calculation(decimal_number, octal_number)
                 elif choice == 24:
                     octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
-                    decimal_number = octal_to_decimal(octal_number)
                     print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
-                    print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
-                    save_calculation(octal_number, decimal_number)
+                    decimal_number = octal_to_decimal(octal_number)
+                    if decimal_number is not None:
+                        print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
+                        save_calculation(octal_number, decimal_number)
                 elif choice == 25:
                     text = input(f"{Fore.CYAN}Enter the text to convert to binary:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
@@ -521,8 +547,9 @@ Type 'Exit' to quit the program.
                     octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     hexadecimal_number = octal_to_hexadecimal(octal_number)
-                    print(f"{Fore.BLUE}Hexadecimal representation: ", hexadecimal_number, "\n")
-                    save_calculation(f"{octal_number}", hexadecimal_number)
+                    if hexadecimal_number is not None:
+                        print(f"{Fore.BLUE}Hexadecimal representation: ", hexadecimal_number, "\n")
+                        save_calculation(f"{octal_number}", hexadecimal_number)
                 elif choice == 28:
                     hexadecimal_number = input(f"{Fore.CYAN}Enter a hexadecimal number:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
@@ -595,7 +622,7 @@ Type 'Exit' to quit the program.
 
     except KeyboardInterrupt:
         print(f"\n{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
-        time.sleep(5)                                                 
+        time.sleep(5)
         print(f"{Fore.CYAN}You're really suck in math! Well me too!:){Style.RESET_ALL}")
 
 scientific_calculator()
