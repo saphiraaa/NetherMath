@@ -65,16 +65,18 @@ Enter the number of your desired operator.
 24. Octal to Decimal
 25. Text to Binary
 26. Binary to Text
-27. Meters to Kilometers
-28. Kilometers to Meters
-29. Kilometers to Light-years
-30. Light-years to Kilometers
-31. Miles to Kilometers
-32. Kilometers to Miles
-33. Meters to Miles
-34. Miles to Meters
-35. Evaluate Mixed Operation
-36. View Previous Calculations
+27. Octal to Hexadecimal
+28. Hexadecimal to Octal
+29. Meters to Kilometers
+30. Kilometers to Meters
+31. Kilometers to Light-years
+32. Light-years to Kilometers
+33. Miles to Kilometers
+34. Kilometers to Miles
+35. Meters to Miles
+36. Miles to Meters
+37. Evaluate Mixed Operation
+38. View Previous Calculations
 
 Type 'h' or 'help' to list all the options available.
 
