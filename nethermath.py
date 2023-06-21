@@ -1,9 +1,16 @@
+import os
 import math
 from colorama import Fore, Style
 import re
 import time
 import getpass
 from datetime import datetime
+
+def clear_terminal():
+    if os.name == "posix":  # Unix/Linux/MacOS
+        os.system("clear")
+    elif os.name == "nt":  # Windows
+        os.system("cls")
 
 tool = """
 \033[36m
@@ -15,6 +22,7 @@ tool = """
                                     By Navi
 \033[0m
 """
+clear_terminal()
 print(tool)
 
 password = getpass.getpass(f"{Fore.CYAN}Enter password:{Style.RESET_ALL} ")
@@ -237,6 +245,20 @@ def miles_to_meters(miles):
     meters = miles * 1609.34
     return meters
 
+def text_to_binary(text):
+    binary = ''
+    for char in text:
+        binary += format(ord(char), '08b') + ' '  # Convert each character to 8-bit binary representation
+    return binary.rstrip()  # Remove trailing whitespace
+
+def binary_to_text(binary):
+    binary = binary.replace(' ', '')  # Remove any whitespace
+    text = ''
+    for i in range(0, len(binary), 8):
+        char_binary = binary[i:i+8]
+        text += chr(int(char_binary, 2))  # Convert 8-bit binary representation to character
+    return text
+
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
@@ -247,7 +269,7 @@ def save_calculation(expression, result):
     print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")          
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
     with open("calculations.txt", "a") as file:
@@ -274,7 +296,6 @@ def view_calculations():
 
 def scientific_calculator():
     options = """
-List of Options:
 1. Add
 2. Subtract
 3. Multiply
@@ -299,18 +320,20 @@ List of Options:
 22. Hexadecimal to Decimal
 23. Decimal to Octal
 24. Octal to Decimal
-25. Meters to Kilometers
-26. Kilometers to Meters
-27. Kilometers to Light-years
-28. Light-years to Kilometers
-29. Miles to Kilometers
-30. Kilometers to Miles
-31. Meters to Miles
-32. Miles to Meters
-33. Evaluate Mixed Operation
-34. View Previous Calculations
+25. Text to Binary
+26. Binary to Text
+27. Meters to Kilometers
+28. Kilometers to Meters
+29. Kilometers to Light-years
+30. Light-years to Kilometers
+31. Miles to Kilometers
+32. Kilometers to Miles
+33. Meters to Miles
+34. Miles to Meters
+35. Evaluate Mixed Operation
+36. View Previous Calculations
 
-Type 'Exit' or ^C to quit the program.
+Type 'Exit' to quit the program.
     """
     try:
         while True:
@@ -471,24 +494,36 @@ Type 'Exit' or ^C to quit the program.
                     print(f"{Fore.BLUE}Decimal representation:", decimal_number, "\n")
                     save_calculation(octal_number, decimal_number)
                 elif choice == 25:
+                    text = input(f"{Fore.CYAN}Enter the text to convert to binary:{Style.RESET_ALL} ")
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    binary = text_to_binary(text)
+                    print(f"{Fore.BLUE}Binary format of {text}:", binary, "\n")
+                    save_calculation(f"{text}", binary)
+                elif choice == 26:
+                    binary = input(f"{Fore.CYAN}Enter the binary to convert to text:{Style.RESET_ALL} ")
+                    print(f"{Fore.MAGENTA}------------------------------------{Style.RESET_ALL}")
+                    text_decoded = binary_to_text(binary)
+                    print(f"{Fore.BLUE}Text format of {binary}:", text_decoded, "\n")
+                    save_calculation(f"{binary}", text_decoded)
+                elif choice == 27:
                     meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     kilometers = meters_to_kilometers(meters)
                     print(f"{Fore.BLUE}{meters} meters is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
                     save_calculation2(f"{meters} meters", kilometers, "kilometers")
-                elif choice == 26:
+                elif choice == 28:
                     kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     meters = kilometers_to_meters(kilometers)
                     print(f"{Fore.BLUE}{kilometers} kilometers is equal to {meters} meters.{Style.RESET_ALL}\n")
                     save_calculation2(f"{kilometers} kilometers", meters, "meters")
-                elif choice == 27:
+                elif choice == 29:
                     distance_kilometers = float(input(f"{Fore.CYAN}Enter distance in kilometers:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     light_years = calculate_light_years(distance_kilometers)
                     print(f"{Fore.BLUE}Distance in light-years: {light_years:.16f}{Style.RESET_ALL}\n")
                     save_calculation2(f"{distance_kilometers} kilometers", light_years, "light-years")
-                elif choice == 28:
+                elif choice == 30:
                     light_years = float(input(f"{Fore.CYAN}Enter distance in light-years:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     distance_km = convert_light_years(light_years) / 1000
@@ -496,35 +531,35 @@ Type 'Exit' or ^C to quit the program.
                     distance_exact = distance_exact.replace("e+12", "e+15")
                     print(f"{Fore.BLUE}Distance in kilometers: {distance_exact}{Style.RESET_ALL}\n")
                     save_calculation2(f"{light_years} light-years", distance_exact, "kilometers")
-                elif choice == 29:
+                elif choice == 31:
                     miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     kilometers = miles_to_km(miles)
                     print(f"{Fore.BLUE}{miles} miles is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
                     save_calculation2(f"{miles} miles", kilometers, "kilometers")
-                elif choice == 30:
+                elif choice == 32:
                     kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
                     miles = km_to_miles(kilometers)
                     print(f"{Fore.BLUE}{kilometers} kilometers is equal to {miles} miles.{Style.RESET_ALL}\n")
                     save_calculation2(f"{kilometers} kilometers", miles, "miles")
-                elif choice == 31:
+                elif choice == 33:
                     meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
                     miles = meters_to_miles(meters)
                     print(f"{Fore.BLUE}{meters} meters is equal to {miles} miles.{Style.RESET_ALL}\n")
                     save_calculation2(f"{meters} meters", miles, "miles")
-                elif choice == 32:
+                elif choice == 34:
                     miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
                     meters = miles_to_meters(miles)
                     print(f"{Fore.BLUE}{miles} miles is equal to {meters} meters.{Style.RESET_ALL}\n")
                     save_calculation2(f"{miles} miles", meters, "meters")
-                elif choice == 33:
+                elif choice == 35:
                     expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     result = evaluate_expression(expression)
                     if result is not None:
                         print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
                         save_calculation(expression, result)
-                elif choice == 34:
+                elif choice == 36:
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     view_calculations()
                 else:
@@ -536,7 +571,7 @@ Type 'Exit' or ^C to quit the program.
 
     except KeyboardInterrupt:
         print(f"\n{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
-        time.sleep(5)
+        time.sleep(5)                                                 
         print(f"{Fore.CYAN}You're really suck in math! Well me too!:){Style.RESET_ALL}")
 
 scientific_calculator()
