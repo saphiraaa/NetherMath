@@ -273,32 +273,32 @@ def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
 
-    with open("/root/Extensions/calculations.txt", "a") as file:
+    with open("calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")          
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
-    with open("/root/Extensions/calculations.txt", "a") as file:
+    with open("calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation3(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
 
-    with open("/root/Extensions/calculations.txt", "a") as file:
+    with open("calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
 
 def view_calculations():
     try:
-        with open("/root/Extensions/calculations.txt", "r") as file:
+        with open("calculations.txt", "r") as file:
             calculations = file.read()
             print(f"{Fore.BLUE}Previous Calculations:{Style.RESET_ALL}{Fore.YELLOW}\n{calculations}{Style.RESET_ALL}")
     except FileNotFoundError:
