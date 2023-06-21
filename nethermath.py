@@ -259,36 +259,46 @@ def binary_to_text(binary):
         text += chr(int(char_binary, 2))  # Convert 8-bit binary representation to character
     return text
 
+def octal_to_hexadecimal(octal_number):
+    decimal_number = int(str(octal_number), 8)
+    hexadecimal_number = hex(decimal_number)[2:].upper()
+    return hexadecimal_number
+
+def hexadecimal_to_octal(hexadecimal_number):
+    decimal_number = int(str(hexadecimal_number), 16)
+    octal_number = oct(decimal_number)[2:]  # Remove the prefix "0o"
+    return octal_number
+
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")          
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation3(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def view_calculations():
     try:
-        with open("calculations.txt", "r") as file:
+        with open("/root/Extensions/calculations.txt", "r") as file:
             calculations = file.read()
             print(f"{Fore.BLUE}Previous Calculations:{Style.RESET_ALL}{Fore.YELLOW}\n{calculations}{Style.RESET_ALL}")
     except FileNotFoundError:
@@ -322,16 +332,18 @@ def scientific_calculator():
 24. Octal to Decimal
 25. Text to Binary
 26. Binary to Text
-27. Meters to Kilometers
-28. Kilometers to Meters
-29. Kilometers to Light-years
-30. Light-years to Kilometers
-31. Miles to Kilometers
-32. Kilometers to Miles
-33. Meters to Miles
-34. Miles to Meters
-35. Evaluate Mixed Operation
-36. View Previous Calculations
+27. Octal to Hexadecimal
+28. Hexadecimal to Octal
+29. Meters to Kilometers
+30. Kilometers to Meters
+31. Kilometers to Light-years
+32. Light-years to Kilometers
+33. Miles to Kilometers
+34. Kilometers to Miles
+35. Meters to Miles
+36. Miles to Meters
+37. Evaluate Mixed Operation
+38. View Previous Calculations
 
 Type 'Exit' to quit the program.
     """
@@ -506,24 +518,36 @@ Type 'Exit' to quit the program.
                     print(f"{Fore.BLUE}Text format of {binary}:", text_decoded, "\n")
                     save_calculation(f"{binary}", text_decoded)
                 elif choice == 27:
+                    octal_number = input(f"{Fore.CYAN}Enter an octal number:{Style.RESET_ALL} ")
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    hexadecimal_number = octal_to_hexadecimal(octal_number)
+                    print(f"{Fore.BLUE}Hexadecimal representation: ", hexadecimal_number, "\n")
+                    save_calculation(f"{octal_number}", hexadecimal_number)
+                elif choice == 28:
+                    hexadecimal_number = input(f"{Fore.CYAN}Enter a hexadecimal number:{Style.RESET_ALL} ")
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    octal_number = hexadecimal_to_octal(hexadecimal_number)
+                    print(f"{Fore.BLUE}Octal representation: ", octal_number, "\n")
+                    save_calculation(f"{hexadecimal_number}", octal_number)
+                elif choice == 29:
                     meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     kilometers = meters_to_kilometers(meters)
                     print(f"{Fore.BLUE}{meters} meters is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
                     save_calculation2(f"{meters} meters", kilometers, "kilometers")
-                elif choice == 28:
+                elif choice == 30:
                     kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     meters = kilometers_to_meters(kilometers)
                     print(f"{Fore.BLUE}{kilometers} kilometers is equal to {meters} meters.{Style.RESET_ALL}\n")
                     save_calculation2(f"{kilometers} kilometers", meters, "meters")
-                elif choice == 29:
+                elif choice == 31:
                     distance_kilometers = float(input(f"{Fore.CYAN}Enter distance in kilometers:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     light_years = calculate_light_years(distance_kilometers)
                     print(f"{Fore.BLUE}Distance in light-years: {light_years:.16f}{Style.RESET_ALL}\n")
                     save_calculation2(f"{distance_kilometers} kilometers", light_years, "light-years")
-                elif choice == 30:
+                elif choice == 32:
                     light_years = float(input(f"{Fore.CYAN}Enter distance in light-years:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     distance_km = convert_light_years(light_years) / 1000
@@ -531,35 +555,35 @@ Type 'Exit' to quit the program.
                     distance_exact = distance_exact.replace("e+12", "e+15")
                     print(f"{Fore.BLUE}Distance in kilometers: {distance_exact}{Style.RESET_ALL}\n")
                     save_calculation2(f"{light_years} light-years", distance_exact, "kilometers")
-                elif choice == 31:
+                elif choice == 33:
                     miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     kilometers = miles_to_km(miles)
                     print(f"{Fore.BLUE}{miles} miles is equal to {kilometers} kilometers.{Style.RESET_ALL}\n")
                     save_calculation2(f"{miles} miles", kilometers, "kilometers")
-                elif choice == 32:
+                elif choice == 34:
                     kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
                     miles = km_to_miles(kilometers)
                     print(f"{Fore.BLUE}{kilometers} kilometers is equal to {miles} miles.{Style.RESET_ALL}\n")
                     save_calculation2(f"{kilometers} kilometers", miles, "miles")
-                elif choice == 33:
+                elif choice == 35:
                     meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
                     miles = meters_to_miles(meters)
                     print(f"{Fore.BLUE}{meters} meters is equal to {miles} miles.{Style.RESET_ALL}\n")
                     save_calculation2(f"{meters} meters", miles, "miles")
-                elif choice == 34:
+                elif choice == 36:
                     miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
                     meters = miles_to_meters(miles)
                     print(f"{Fore.BLUE}{miles} miles is equal to {meters} meters.{Style.RESET_ALL}\n")
                     save_calculation2(f"{miles} miles", meters, "meters")
-                elif choice == 35:
+                elif choice == 37:
                     expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     result = evaluate_expression(expression)
                     if result is not None:
                         print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
                         save_calculation(expression, result)
-                elif choice == 36:
+                elif choice == 38:
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     view_calculations()
                 else:
