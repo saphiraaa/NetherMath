@@ -72,9 +72,9 @@ def remainder(x, y):
 
 def evaluate_expression(expression):
     expression = re.sub(r'\s', '', expression)
-    pattern = r'(\d+\.?\d*)|([+\-*/])'
+    pattern = r'(\d+\.?\d*)|([+\-*/^])'
     tokens = re.findall(pattern, expression)
-    precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3}
     numbers = []
     operators = []
 
@@ -91,6 +91,8 @@ def evaluate_expression(expression):
             numbers.append(num1 * num2)
         elif operator == '/':
             numbers.append(num1 / num2)
+        elif operator == '^':
+            numbers.append(num1 ** num2)
 
     for token in tokens:
         if re.match(pattern, token[0]):
@@ -288,33 +290,35 @@ def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                         
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation3(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def view_calculations():
     try:
-        with open("calculations.txt", "r") as file:
+        with open("/root/Extensions/calculations.txt", "r") as file:
             calculations = file.read()
+            clear_terminal()
+            print(tool)
             print(f"{Fore.BLUE}Previous Calculations:{Style.RESET_ALL}{Fore.YELLOW}\n{calculations}{Style.RESET_ALL}")
     except FileNotFoundError:
         print(f"{Fore.MAGENTA}No calculations found.{Style.RESET_ALL}")
@@ -381,7 +385,8 @@ Type 'Exit' to quit the program.
                 print(f"{Fore.CYAN}You're really suck in math! Well me too!:){Style.RESET_ALL}")
                 break
             elif choice.lower() == "h" or choice.lower() == "help":
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                clear_terminal()
+                print(tool)
                 print(f"{Fore.BLUE}", options)
             elif choice.isdigit():
                 choice = int(choice)
@@ -611,7 +616,6 @@ Type 'Exit' to quit the program.
                         print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
                         save_calculation(expression, result)
                 elif choice == 38:
-                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     view_calculations()
                 else:
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
