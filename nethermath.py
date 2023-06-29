@@ -286,6 +286,56 @@ def hexadecimal_to_octal(hexadecimal_number):
     octal_number = oct(decimal_number)[2:]  # Remove the prefix "0o"
     return octal_number
 
+def meters_to_feet(meters):
+    feet = meters * 3.28084
+    return feet
+
+def feet_to_meters(feet):
+    meters = feet / 3.28084
+    return meters
+
+def kg_to_lb(weight):
+    return weight * 2.20462
+
+def lb_to_kg(weight):
+    return weight * 0.453592
+
+def kg_to_g(weight):
+    return weight * 1000
+
+def g_to_kg(weight):
+    return weight * 0.001
+
+def kg_to_ton(weight):
+    return weight * 0.00110231
+
+def ton_to_kg(weight):
+    return weight * 907.185
+
+def lb_to_g(weight):
+    return kg_to_g(lb_to_kg(weight))
+
+def g_to_lb(weight):
+    return kg_to_lb(g_to_kg(weight))
+
+def lb_to_ton(weight):
+    return kg_to_ton(lb_to_kg(weight))
+
+def ton_to_lb(weight):
+    return kg_to_lb(ton_to_kg(weight))
+
+def g_to_ton(weight):
+    return kg_to_ton(g_to_kg(weight))
+
+def ton_to_g(weight):
+    return kg_to_g(ton_to_kg(weight))
+
+def stone_to_kg(weight):
+    return weight * 6.35029
+
+def kg_to_stone(weight):
+    return weight * 0.157473
+
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
@@ -296,7 +346,7 @@ def save_calculation(expression, result):
     print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                         
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
     with open("calculations.txt", "a") as file:
@@ -368,10 +418,28 @@ Distance Measures
 34. Kilometers to Miles
 35. Meters to Miles
 36. Miles to Meters
+37. Meters to Feet
+38. Feet to Meters
+
+Weighing Scales
+39. Kilograms to Pounds
+40. Pounds to Kilograms
+41. Kilograms to Grams
+42. Grams to Kilograms
+43. Kilograms to Ton
+44. Ton to Kilograms
+45. Pounds to Grams
+46. Grams to Pounds
+47. Pounds to Ton
+48. Ton to Pounds
+49. Grams To Ton
+50. Ton to Grams
+51. Stone to Kilograms
+52. Kilograms to Stone
 
 Other Options
-37. Evaluate Mixed Operation
-38. View Previous Calculations
+53. Evaluate Mixed Operation
+54. View Previous Calculations
 
 Type 'Exit' to quit the program.
     """
@@ -595,27 +663,125 @@ Type 'Exit' to quit the program.
                     save_calculation2(f"{miles} miles", kilometers, "kilometers")
                 elif choice == 34:
                     kilometers = float(input(f"{Fore.CYAN}Enter the distance in kilometers:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     miles = km_to_miles(kilometers)
                     print(f"{Fore.BLUE}{kilometers} kilometers is equal to {miles} miles.{Style.RESET_ALL}\n")
                     save_calculation2(f"{kilometers} kilometers", miles, "miles")
                 elif choice == 35:
                     meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     miles = meters_to_miles(meters)
                     print(f"{Fore.BLUE}{meters} meters is equal to {miles} miles.{Style.RESET_ALL}\n")
                     save_calculation2(f"{meters} meters", miles, "miles")
                 elif choice == 36:
                     miles = float(input(f"{Fore.CYAN}Enter the distance in miles:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     meters = miles_to_meters(miles)
                     print(f"{Fore.BLUE}{miles} miles is equal to {meters} meters.{Style.RESET_ALL}\n")
                     save_calculation2(f"{miles} miles", meters, "meters")
                 elif choice == 37:
+                    meters = float(input(f"{Fore.CYAN}Enter the distance in meters:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    feet = meters_to_feet(meters)
+                    print(f"{Fore.BLUE}{meters} meters is equal to {feet} feet.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{meters} meters", feet, "feet")
+                elif choice == 38:
+                    feet = float(input(f"{Fore.CYAN}Enter the distance in feet:{Style.RESET_ALL} "))
+                    meters = feet_to_meters(feet)
+                    print(f"{Fore.BLUE}{feet} feet is equal to {meters} meters.{Style.RESET_ALL}\n")
+                    save_calculation2(f"{feet} feet", meters, "meters")
+                elif choice == 39:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in kilograms:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = kg_to_lb(weight)
+                    print(f"{Fore.BLUE}Weight in pounds: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} kilograms", result, "pounds")
+                elif choice == 40:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in pounds:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = lb_to_kg(weight)
+                    print(f"{Fore.BLUE}Weight in kilograms: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} pounds", result, "kilograms")
+                elif choice == 41:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in kilograms:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = kg_to_g(weight)
+                    print(f"{Fore.BLUE}Weight in grams: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} kilograms", result, "grams")
+                elif choice == 42:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in grams:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = g_to_kg(weight)
+                    print(f"{Fore.BLUE}Weight in kilograms: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} grams", result, "kilograms")
+                elif choice == 43:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in kilograms:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = kg_to_ton(weight)
+                    print(f"{Fore.BLUE}Weight in ton: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} kilograms", result, "tons")
+                elif choice == 44:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in tons:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = ton_to_kg(weight)
+                    print(f"{Fore.BLUE}Weight in kilograms: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} tons", result, "kilograms")
+                elif choice == 45:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in pounds:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = lb_to_g(weight)
+                    print(f"{Fore.BLUE}Weight in grams: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} pounds", result, "grams")
+                elif choice == 46:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in grams:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = g_to_lb(weight)
+                    print(f"{Fore.BLUE}Weight in pounds: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} grams", result, "pounds")
+                elif choice == 47:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in pounds:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = lb_to_ton(weight)
+                    print(f"{Fore.BLUE}Weight in tons: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} pounds", result, "tons")
+                elif choice == 48:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in tons:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = ton_to_lb(weight)
+                    print(f"{Fore.BLUE}Weight in pounds: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} tons", result, "pounds")
+                elif choice == 49:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in grams:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = g_to_ton(weight)
+                    print(f"{Fore.BLUE}Weight in tons: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} grams", result, "tons")
+                elif choice == 50:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in tons:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = ton_to_g(weight)
+                    print(f"{Fore.BLUE}Weight in grams: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} tons", result, "grams")
+                elif choice == 51:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in stone:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = stone_to_kg(weight)
+                    print(f"{Fore.BLUE}Weight in kilograms: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} stone", result, "kilograms")
+                elif choice == 52:
+                    weight = float(input(f"{Fore.CYAN}Enter weight in kilograms:{Style.RESET_ALL} "))
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    result = kg_to_stone(weight)
+                    print(f"{Fore.BLUE}Weight in stone: {result}{Style.RESET_ALL}\n")
+                    save_calculation2(f"{weight} kilograms", result, "stone")
+                elif choice == 53:
                     expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     result = evaluate_expression(expression)
                     if result is not None:
                         print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
                         save_calculation(expression, result)
-                elif choice == 38:
+                elif choice == 54:
                     view_calculations()
                 else:
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
