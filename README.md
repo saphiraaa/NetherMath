@@ -1,6 +1,6 @@
 # NetherMath
 
-This Python program is a scientific calculator that performs various mathematical operations. It includes functions for basic arithmetic operations, trigonometric functions, logarithms, exponentiation, conversions, and more.
+This Python program is a scientific calculator or I can say an advanced calculator that performs various mathematical operations. It includes functions for basic arithmetic operations, trigonometric functions, logarithms, exponentiation, conversions, and more.
 
 ## Installation
 
@@ -25,16 +25,16 @@ Run the script using the command:
 Enter the number of your desired operator.
 
 ## Features
-
 - Basic arithmetic operations: addition, subtraction, multiplication, division, and remainder.
 - Exponentiation and square root.
 - Trigonometric functions: sine, cosine, and tangent.
 - Logarithmic functions.
 - Conversion between different number systems: decimal, binary, hexadecimal, and octal.
-- Conversion between different units of distance: meters, kilometers, and miles.
+- Conversion between different units of distance: meters, light-years, kilometers, feet, and miles.
 - Calculation of Pi (π) and Euler's number (e).
 - Avogadro's number calculation.
 - Evaluation of mixed mathematical expressions.
+- Conversion between different scales of weight: kilograms, pounds, tons, grams, and stone.
 - Saving and viewing previous calculations.
 
 ## Commands
@@ -109,7 +109,6 @@ Type 'Exit' or ^C to quit the program.
 
 
 ## Usage Example
-
 1. Upon running the script, a password prompt will appear. Enter the password to proceed.
 2. After successful authentication, the calculator menu will be displayed.
 3. Enter the number corresponding to the desired operation and follow the prompts to input the required values.
@@ -117,15 +116,9 @@ Type 'Exit' or ^C to quit the program.
 5. To view previous calculations, choose the corresponding option from the menu.
 
 ## Note
-
 - The password for accessing the program is set to "Shredder". Modify the `password` variable in the code to change it.
-- The calculations are saved to a file named "calculations.txt" in the NetherMath directory. Modify the file path in the code if needed.
-
-## Exit
-
-To exit the calculator, type "exit" when prompted for your choice.
+- The calculations are saved to a file named "calculations.txt" in the NetherMath directory. Modify the file path according to your desired path if necessary.
 
 ## Developer
-
 This code is created by Navi/Saphiraaa...
 
