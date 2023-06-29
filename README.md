@@ -83,9 +83,25 @@ Enter the number of your desired operator.
 35. Meters to Miles
 36. Miles to Meters
 
+## Weighing Scales
+39. Kilograms to Pounds
+40. Pounds to Kilograms
+41. Kilograms to Grams
+42. Grams to Kilograms
+43. Kilograms to Ton
+44. Ton to Kilograms
+45. Pounds to Grams
+46. Grams to Pounds
+47. Pounds to Ton
+48. Ton to Pounds
+49. Grams To Ton
+50. Ton to Grams
+51. Stone to Kilograms
+52. Kilograms to Stone
+
 ## Other Options
-37. Evaluate Mixed Operation
-38. View Previous Calculations
+53. Evaluate Mixed Operation
+54. View Previous Calculations
 
 Type 'h' or 'help' to list all the options available.
 
