@@ -874,7 +874,7 @@ Type 'Exit' to quit the program.
                         error_message2 = ""
                         if conversion_data is None:
                             error_message += f"{Fore.RED}Invalid cryptocurrency or currency!{Style.RESET_ALL}"
-                            error_message2 += f"{Fore.RED}Please enter a valid one.{Style.RESET_ALL}"
+                            error_message2 += f"{Fore.RED}Please enter a valid one.{Style.RESET_ALL}\n"
                         print(error_message)
                         print(error_message2)
                 elif choice == 55:
