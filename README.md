@@ -99,9 +99,15 @@ Enter the number of your desired operator.
 51. Stone to Kilograms
 52. Kilograms to Stone
 
+## Currency
+53. Currency Converter
+54. Crytocurrency Converter
+
 ## Other Options
-53. Evaluate Mixed Operation
-54. View Previous Calculations
+55. Binary Calculator
+56. Evaluate Mixed Operation
+57. View Previous Calculations
+
 
 Type 'h' or 'help' to list all the options available.
 
@@ -118,6 +124,7 @@ Type 'Exit' or ^C to quit the program.
 ## Note
 - The password for accessing the program is set to "Shredder". Modify the `password` variable in the code to change it.
 - The calculations are saved to a file named "calculations.txt" in the NetherMath directory. Modify the file path according to your desired path if necessary.
+- When using currency converter it needs internet because this code uses API to convert currency and cryptocurrency
 
 ## Developer
 This code is created by Navi/Saphiraaa...
