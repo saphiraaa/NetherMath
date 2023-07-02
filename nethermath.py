@@ -5,6 +5,8 @@ import re
 import time
 import getpass
 from datetime import datetime
+import requests
+from requests.exceptions import RequestException
 
 def clear_terminal():
     if os.name == "posix":  # Unix/Linux/MacOS
@@ -336,36 +338,102 @@ def stone_to_kg(weight):
 def kg_to_stone(weight):
     return weight * 0.157473
 
+def get_exchange_rate(from_currency, to_currency):
+    try:
+        url = f"https://api.exchangerate-api.com/v4/latest/{from_currency}"
+        response = requests.get(url)
+        data = response.json()
+        rates = data["rates"]
+        exchange_rate = rates[to_currency]
+        return exchange_rate
+    except (RequestException, KeyError):
+        return None
+
+def convert_currency(amount, from_currency, to_currency):
+    exchange_rate = get_exchange_rate(from_currency, to_currency)
+    if exchange_rate is None:
+        return None
+    converted_amount = amount * exchange_rate
+    return converted_amount
+
+def convert_to_currency(amount, from_currency, to_currency):
+    url = f"https://min-api.cryptocompare.com/data/price?fsym={from_currency}&tsyms={to_currency}"
+    response = requests.get(url)
+    data = response.json()
+    if to_currency in data:
+        conversion_rate = data[to_currency]
+        converted_amount = amount * conversion_rate
+        return converted_amount
+    else:
+        return None
+
+def binary_calculator(expression):
+    # Separate the binary numbers and operators
+    parts = re.findall(r'[01]+|[-+*/]', expression)
+    binaries = [part for part in parts if all(bit in '01' for bit in part)]
+    operators = [part for part in parts if part not in binaries]
+
+    # Convert the binary numbers to decimal and perform calculations
+    decimals = [int(binary, 2) for binary in binaries]
+    result_decimal = decimals[0]
+
+    for i in range(1, len(decimals)):
+        operator = operators[i - 1]
+        if operator == '+':
+            result_decimal += decimals[i]
+        elif operator == '-':
+            result_decimal -= decimals[i]
+        elif operator == '*':
+            result_decimal *= decimals[i]
+        elif operator == '/':
+            result_decimal //= decimals[i]
+
+    output = "Binary value:\n"
+    output += f"{expression} = {bin(result_decimal)[2:].zfill(max(len(binary) for binary in binaries))}\n"
+    output += "Decimal value:\n"
+    output += ' + '.join(map(str, decimals)) + f" = {result_decimal}\n"
+
+    return output
+
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation2(expression, result, statement):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                         
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result} {statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def save_calculation3(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
 
-    with open("calculations.txt", "a") as file:
+    with open("/root/Extensions/calculations.txt", "a") as file:
         file.write(calculation)
 
-    print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
+
+def save_calculation4(expression):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    calculation = f"{timestamp}: {expression}\n"
+
+    with open("/root/Extensions/calculations.txt", "a") as file:
+        file.write(calculation)
+
+    print(f"{Fore.GREEN}Calculation saved to /root/Extensions/calculations.txt.{Style.RESET_ALL}")
 
 def view_calculations():
     try:
-        with open("calculations.txt", "r") as file:
+        with open("/root/Extensions/calculations.txt", "r") as file:
             calculations = file.read()
             clear_terminal()
             print(tool)
@@ -437,9 +505,14 @@ Weighing Scales
 51. Stone to Kilograms
 52. Kilograms to Stone
 
+Currency
+53. Currency Converter
+54. Crytocurrency Converter
+
 Other Options
-53. Evaluate Mixed Operation
-54. View Previous Calculations
+55. Binary Calculator
+56. Evaluate Mixed Operation
+57. View Previous Calculations
 
 Type 'Exit' to quit the program.
     """
@@ -775,13 +848,49 @@ Type 'Exit' to quit the program.
                     print(f"{Fore.BLUE}Weight in stone: {result}{Style.RESET_ALL}\n")
                     save_calculation2(f"{weight} kilograms", result, "stone")
                 elif choice == 53:
+                    amount = float(input(f"{Fore.CYAN}Enter the amount to be converted:{Style.RESET_ALL} "))
+                    from_currency = input(f"{Fore.CYAN}Enter the currency to convert from:{Style.RESET_ALL} ").upper()
+                    to_currency = input(f"{Fore.CYAN}Enter the currency to convert to:{Style.RESET_ALL} ").upper()
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    converted_amount = convert_currency(amount, from_currency, to_currency)
+                    if converted_amount is None:
+                        print(f"{Fore.RED}One of the currencies is invalid or doesn't exist!{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Please enter a valid currency!{Style.RESET_ALL}\n")
+                    else:
+                        print(f"{Fore.BLUE}{amount} {from_currency} = {converted_amount} {to_currency}{Style.RESET_ALL}\n")
+                        save_calculation2(f"{amount} {from_currency}", converted_amount, to_currency)
+                elif choice == 54:
+                    amount = float(input(f"{Fore.CYAN}Enter the amount of cryptocurrency:{Style.RESET_ALL} "))
+                    from_currency_acronym = input(f"{Fore.CYAN}Enter the cryptocurrency:{Style.RESET_ALL} ").upper()
+                    to_currency = input(f"{Fore.CYAN}Enter the currency to convert to:{Style.RESET_ALL} ").upper()
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    conversion_data = convert_to_currency(amount, from_currency_acronym, to_currency)
+                    if conversion_data is not None:
+                        converted_amount = conversion_data
+                        print(f"{Fore.BLUE}{amount} {from_currency_acronym} = {converted_amount} {to_currency}{Style.RESET_ALL}\n")
+                        save_calculation2(f"{amount} {from_currency_acronym}", converted_amount, to_currency)
+                    else:
+                        error_message = ""
+                        error_message2 = ""
+                        if conversion_data is None:
+                            error_message += f"{Fore.RED}Invalid cryptocurrency or currency!{Style.RESET_ALL}"
+                            error_message2 += f"{Fore.RED}Please enter a valid one.{Style.RESET_ALL}"
+                        print(error_message)
+                        print(error_message2)
+                elif choice == 55:
+                    expression = input(f"{Fore.CYAN}Enter the binary expression:{Style.RESET_ALL} ")
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    output = binary_calculator(expression)
+                    print(Fore.BLUE + output + Style.RESET_ALL)
+                    save_calculation4(output)
+                elif choice == 56:
                     expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     result = evaluate_expression(expression)
                     if result is not None:
                         print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
                         save_calculation(expression, result)
-                elif choice == 54:
+                elif choice == 57:
                     view_calculations()
                 else:
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
