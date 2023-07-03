@@ -451,7 +451,7 @@ def view_calculations():
     except FileNotFoundError:
         clear_terminal()
         print(tool)
-        print(f"{Fore.MAGENTA}No calculations found.{Style.RESET_ALL}")
+        print(f"{Fore.MAGENTA}No calculations found.{Style.RESET_ALL}\n")
 
 def scientific_calculator():
     options = """
