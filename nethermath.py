@@ -1,4 +1,6 @@
 import os
+import signal
+import sys
 import math
 from colorama import Fore, Style
 import re
@@ -27,6 +29,13 @@ tool = """
 clear_terminal()
 print(tool)
 
+def signal_handler(sig, frame):
+    print(f"\n{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}\n")
+    time.sleep(2)
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
 password = getpass.getpass(f"{Fore.CYAN}Enter password:{Style.RESET_ALL} ")
 
 if password == "Shredder":
@@ -34,7 +43,8 @@ if password == "Shredder":
     time.sleep(10)
 else:
     print(f"{Fore.MAGENTA}[*] Access Denied!!\n{Style.RESET_ALL}")
-    exit(1)
+    time.sleep(2)
+    sys.exit(1)
 
 def add(x, y):
     return x + y
@@ -902,6 +912,5 @@ Type 'Exit' to quit the program.
     except KeyboardInterrupt:
         print(f"\n{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
         time.sleep(5)
-        print(f"{Fore.CYAN}You're really suck in math! Well me too!:){Style.RESET_ALL}")
 
 scientific_calculator()
