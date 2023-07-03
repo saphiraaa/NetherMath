@@ -449,6 +449,8 @@ def view_calculations():
             print(tool)
             print(f"{Fore.BLUE}Previous Calculations:{Style.RESET_ALL}{Fore.YELLOW}\n{calculations}{Style.RESET_ALL}")
     except FileNotFoundError:
+        clear_terminal()
+        print(tool)
         print(f"{Fore.MAGENTA}No calculations found.{Style.RESET_ALL}")
 
 def scientific_calculator():
