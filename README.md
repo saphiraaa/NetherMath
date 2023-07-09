@@ -14,6 +14,10 @@ Navigate to the directory where the Python script is located:
 
 `cd NetherMath`
 
+Allow executable permission:
+
+`chmod +x *`
+
 Install the necessary requirements:
 
 `pip3 install -r requirements.txt`
