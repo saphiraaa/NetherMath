@@ -8,7 +8,16 @@ import time
 import getpass
 from datetime import datetime
 import requests
-from requests.exceptions import RequestException
+from requests.exceptions import RequestException, ConnectionError
+from cryptography.fernet import Fernet
+import hashlib
+
+PASSWORD_FILE = "password.txt"
+SALT_LENGTH = 16
+MAX_LOGIN_ATTEMPTS = 3
+LOGIN_ATTEMPT_DELAY = 2
+VERIFICATION_FILE = "verification.txt"
+KEY_FILE = "key.key"
 
 def clear_terminal():
     if os.name == "posix":  # Unix/Linux/MacOS
@@ -36,15 +45,214 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-password = getpass.getpass(f"{Fore.CYAN}Enter password:{Style.RESET_ALL} ")
+def generate_salt():
+    return os.urandom(SALT_LENGTH)
 
-if password == "Shredder":
-    print(f"{Fore.CYAN}[*] Access granted. Proceeding with the program...\n{Style.RESET_ALL}")
-    time.sleep(10)
-else:
-    print(f"{Fore.MAGENTA}[*] Access Denied!!\n{Style.RESET_ALL}")
+def hash_password(password, salt):
+    salted_password = password.encode() + salt
+    hashed_password = hashlib.pbkdf2_hmac("sha256", salted_password, salt, 100000)
+    return hashed_password
+
+def encrypt_password(password, key):
+    cipher_suite = Fernet(key)
+    encrypted_password = cipher_suite.encrypt(password)
+    return encrypted_password
+
+def decrypt_password(encrypted_password, key):
+    try:
+        cipher_suite = Fernet(key)
+        decrypted_password = cipher_suite.decrypt(encrypted_password)
+        return decrypted_password
+    except Exception as e:
+        print("Error occurred while decrypting the password:", str(e))
+        sys.exit(1)
+
+def encrypt_verification_data(data, key):
+    cipher_suite = Fernet(key)
+    encrypted_data = cipher_suite.encrypt(data.encode())
+    return encrypted_data
+
+def decrypt_verification_data(encrypted_data, key):
+    cipher_suite = Fernet(key)
+    decrypted_data = cipher_suite.decrypt(encrypted_data).decode()
+    return decrypted_data
+
+def enter_password():
+    attempts = 0
+    while attempts < MAX_LOGIN_ATTEMPTS:
+        clear_terminal()
+        print(tool)
+        password = getpass.getpass(f"{Fore.CYAN}Enter password:{Style.RESET_ALL} ")
+        with open(PASSWORD_FILE, "rb") as file:
+            saved_password = file.read()
+        with open(KEY_FILE, "rb") as key_file:
+            key = key_file.read()
+        decrypted_password = decrypt_password(saved_password[SALT_LENGTH:], key)
+        if hash_password(password, saved_password[:SALT_LENGTH]) == decrypted_password:
+            print(f"{Fore.GREEN}Access granted. Proceeding with the program...{Style.RESET_ALL}")
+            time.sleep(10)
+            return
+        else:
+            print(f"{Fore.MAGENTA}Access denied!{Style.RESET_ALL}")
+            attempts += 1
+            if attempts < MAX_LOGIN_ATTEMPTS:
+                time.sleep(2)
+                print(f"{Fore.MAGENTA}Please try again.{Style.RESET_ALL}")
+                time.sleep(LOGIN_ATTEMPT_DELAY)
     time.sleep(2)
+    print(f"{Fore.RED}Maximum login attempts exceeded. Exiting...{Style.RESET_ALL}")
     sys.exit(1)
+
+def create_password():
+    while True:
+        clear_terminal()
+        print(tool)
+        password = getpass.getpass(f"{Fore.CYAN}Create a new password:{Style.RESET_ALL} ")
+        verify_password = getpass.getpass(f"{Fore.CYAN}Verify your password:{Style.RESET_ALL} ")
+
+        if password == verify_password:
+            salt = generate_salt()
+            hashed_password = hash_password(password, salt)
+            key = Fernet.generate_key()
+
+            encrypted_password = encrypt_password(hashed_password, key)
+            with open(PASSWORD_FILE, "wb") as file:
+                file.write(salt + encrypted_password)
+
+            with open(KEY_FILE, "wb") as key_file:
+                key_file.write(key)
+
+            time.sleep(5)
+            print(f"\n{Fore.GREEN}Password created and saved successfully.{Style.RESET_ALL}")
+            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+
+            favorite_color = input(f"{Fore.CYAN}Enter your favorite color:{Style.RESET_ALL} ")
+            pet_name = input(f"{Fore.CYAN}Enter your pet's name:{Style.RESET_ALL} ")
+            city_of_birth = input(f"{Fore.CYAN}Enter the city of your birth:{Style.RESET_ALL} ")
+
+            verification_data = f"{favorite_color},{pet_name},{city_of_birth}"
+            encrypted_verification_data = encrypt_verification_data(verification_data, key)
+
+            with open(VERIFICATION_FILE, "wb") as verification_file:
+                verification_file.write(encrypted_verification_data)
+
+            break
+        else:
+            print(f"{Fore.RED}Passwords do not match! Please try again.{Style.RESET_ALL}")
+
+def create_new_password():
+    while True:
+        clear_terminal()
+        print(tool)
+        password = getpass.getpass(f"{Fore.CYAN}Create a new password:{Style.RESET_ALL} ")
+        verify_password = getpass.getpass(f"{Fore.CYAN}Verify your password:{Style.RESET_ALL} ")
+
+        if password == verify_password:
+            salt = generate_salt()
+            hashed_password = hash_password(password, salt)
+            key = Fernet.generate_key()
+
+            encrypted_password = encrypt_password(hashed_password, key)
+            with open(PASSWORD_FILE, "wb") as file:
+                file.write(salt + encrypted_password)
+
+            with open(KEY_FILE, "wb") as key_file:
+                key_file.write(key)
+
+            time.sleep(5)
+            print(f"\n{Fore.GREEN}Password created and saved successfully.{Style.RESET_ALL}")
+            print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+
+            favorite_color = input(f"{Fore.CYAN}Enter your favorite color:{Style.RESET_ALL} ")
+            pet_name = input(f"{Fore.CYAN}Enter your pet's name:{Style.RESET_ALL} ")
+            city_of_birth = input(f"{Fore.CYAN}Enter the city of your birth:{Style.RESET_ALL} ")
+
+            verification_data = f"{favorite_color},{pet_name},{city_of_birth}"
+            encrypted_verification_data = encrypt_verification_data(verification_data, key)
+
+            with open(VERIFICATION_FILE, "wb") as verification_file:
+                verification_file.write(encrypted_verification_data)
+
+            break
+        else:
+            print(f"{Fore.RED}Passwords do not match! Please try again.{Style.RESET_ALL}")
+
+def verify_user():
+    attempts = 0
+    while attempts < MAX_LOGIN_ATTEMPTS:
+        favorite_color = input(f"{Fore.CYAN}Enter your favorite color:{Style.RESET_ALL} ")
+        pet_name = input(f"{Fore.CYAN}Enter your pet's name:{Style.RESET_ALL} ")
+        city_of_birth = input(f"{Fore.CYAN}Enter the city of your birth:{Style.RESET_ALL} ")
+
+        with open(VERIFICATION_FILE, "rb") as verification_file:
+            encrypted_verification_data = verification_file.read()
+
+        with open(KEY_FILE, "rb") as key_file:
+            key = key_file.read()
+
+        decrypted_verification_data = decrypt_verification_data(encrypted_verification_data, key)
+        saved_favorite_color, saved_pet_name, saved_city_of_birth = decrypted_verification_data.split(",")
+
+        if (
+            favorite_color.lower() == saved_favorite_color.lower()
+            and pet_name.lower() == saved_pet_name.lower()
+            and city_of_birth.lower() == saved_city_of_birth.lower()
+        ):
+            time.sleep(3)
+            print(f"{Fore.GREEN}User verified.{Style.RESET_ALL}")
+            break
+        else:
+            time.sleep(3)
+            print(f"{Fore.RED}Verification failed. Please try again.{Style.RESET_ALL}")
+            attempts += 1
+            if attempts < MAX_LOGIN_ATTEMPTS:
+                print(f"{Fore.MAGENTA}\nPlease try again.{Style.RESET_ALL}")
+                time.sleep(LOGIN_ATTEMPT_DELAY)
+    else:
+        print(f"{Fore.RED}Maximum login attempts exceeded. Exiting...{Style.RESET_ALL}")
+        sys.exit(1)
+
+def forgot_password():
+    choice = input(f"{Fore.YELLOW}Do you want to reset your password? (y/n):{Style.RESET_ALL} ").lower()
+    if choice == "y":
+        clear_terminal()
+        print(tool)
+        verify_user()
+        time.sleep(3)
+        create_new_password()
+        enter_password()
+    else:
+        print(f"{Fore.MAGENTA}Password reset canceled. Exiting...{Style.RESET_ALL}")
+        sys.exit(0)
+
+def password_already_created():
+    return os.path.exists(PASSWORD_FILE)
+
+def login_form():
+    if password_already_created():
+        enter_password()
+    else:
+        print(f"{Fore.MAGENTA}You haven't created a password yet!{Style.RESET_ALL}")
+        choice = input(f"{Fore.YELLOW}Do you want to create a password now? (y/n):{Style.RESET_ALL} ").lower()
+        if choice == "y":
+            create_password()
+            enter_password()
+        else:
+            print(f"{Fore.MAGENTA}Login canceled. Exiting...{Style.RESET_ALL}")
+            sys.exit(0)
+
+def main():
+    choice = input(f"{Fore.CYAN}1. Login\n2. Forgot Password\n\n>{Style.RESET_ALL} ")
+    if choice == "1":
+        login_form()
+    elif choice == "2":
+        forgot_password()
+    else:
+        print(f"{Fore.MAGENTA}Invalid choice. Exiting...{Style.RESET_ALL}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
 
 def add(x, y):
     return x + y
@@ -348,7 +556,18 @@ def stone_to_kg(weight):
 def kg_to_stone(weight):
     return weight * 0.157473
 
+def has_internet_connection():
+    try:
+        requests.get("https://www.google.com", timeout=3)
+        return True
+    except requests.ConnectionError:
+        return False
+
 def get_exchange_rate(from_currency, to_currency):
+    if not has_internet_connection():
+        print(f"{Fore.RED}No internet connection!{Style.RESET_ALL}")
+        return None
+
     try:
         url = f"https://api.exchangerate-api.com/v4/latest/{from_currency}"
         response = requests.get(url)
@@ -367,14 +586,19 @@ def convert_currency(amount, from_currency, to_currency):
     return converted_amount
 
 def convert_to_currency(amount, from_currency, to_currency):
-    url = f"https://min-api.cryptocompare.com/data/price?fsym={from_currency}&tsyms={to_currency}"
-    response = requests.get(url)
-    data = response.json()
-    if to_currency in data:
-        conversion_rate = data[to_currency]
-        converted_amount = amount * conversion_rate
-        return converted_amount
-    else:
+    if not has_internet_connection():
+        print(f"{Fore.RED}No internet connection!{Style.RESET_ALL}")
+        return None
+
+    try:
+        url = f"https://min-api.cryptocompare.com/data/price?fsym={from_currency}&tsyms={to_currency}"
+        response = requests.get(url)
+        data = response.json()
+        if to_currency in data:
+            conversion_rate = data[to_currency]
+            converted_amount = amount * conversion_rate
+            return converted_amount
+    except RequestException:
         return None
 
 def binary_calculator(expression):
@@ -384,8 +608,10 @@ def binary_calculator(expression):
     operators = [part for part in parts if part not in binaries]
 
     # Convert the binary numbers to decimal and perform calculations
-    decimals = [int(binary, 2) for binary in binaries]
+    decimals = [int(binary.rstrip('b'), 2) for binary in binaries]
     result_decimal = decimals[0]
+
+    is_division = False  # Variable to track if division operation is used
 
     for i in range(1, len(decimals)):
         operator = operators[i - 1]
@@ -396,14 +622,39 @@ def binary_calculator(expression):
         elif operator == '*':
             result_decimal *= decimals[i]
         elif operator == '/':
+            if decimals[i] == 0:
+                print(f"{Fore.RED}Error: Cannot divide by zero.{Style.RESET_ALL}")
+                return ""
             result_decimal //= decimals[i]
+            is_division = True  # Set is_division to True for division operation
 
     output = "Binary value:\n"
-    output += f"{expression} = {bin(result_decimal)[2:].zfill(max(len(binary) for binary in binaries))}\n"
-    output += "Decimal value:\n"
-    output += ' + '.join(map(str, decimals)) + f" = {result_decimal}\n"
+    for j in range(len(binaries)):
+        output += f"{binaries[j]} "
+        if j < len(operators):
+            output += f"{operators[j]} "
+    output += f"= {bin(result_decimal)[2:]}\n"
 
-    return output
+    if is_division:
+        remainder = decimals[0] % decimals[1]
+        output += f"Remainder(Binary): {bin(remainder)[2:]}\n\n"
+    else:
+        output += "\n"
+
+    output += "Decimal value:\n"
+    for j in range(len(decimals)):
+        output += f"{decimals[j]} "
+        if j < len(operators):
+            output += f"{operators[j]} "
+    output += f"= {result_decimal}\n"
+
+    if is_division:
+        remainder = decimals[0] % decimals[1]
+        output += f"Remainder(Decimal): {remainder}\n"
+    else:
+        output += "\n"
+
+    return output.replace("b", "")  # Remove 'b' from the binary result
 
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -529,8 +780,9 @@ Other Options
 Type 'Exit' to quit the program.
     """
     try:
+        clear_terminal()
         while True:
-            choice = input(f"{Fore.CYAN}\nEnter your choice:{Style.RESET_ALL} ")
+            choice = input(f"{Fore.CYAN}\n>{Style.RESET_ALL} ")
 
             if choice.lower() == "exit":
                 print(f"{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
@@ -864,37 +1116,44 @@ Type 'Exit' to quit the program.
                     from_currency = input(f"{Fore.CYAN}Enter the currency to convert from:{Style.RESET_ALL} ").upper()
                     to_currency = input(f"{Fore.CYAN}Enter the currency to convert to:{Style.RESET_ALL} ").upper()
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                    converted_amount = convert_currency(amount, from_currency, to_currency)
-                    if converted_amount is None:
-                        print(f"{Fore.RED}One of the currencies is invalid or doesn't exist!{Style.RESET_ALL}")
-                        print(f"{Fore.RED}Please enter a valid currency!{Style.RESET_ALL}\n")
+                    if not has_internet_connection():
+                        print(f"{Fore.RED}No internet connection!{Style.RESET_ALL}")
                     else:
-                        print(f"{Fore.BLUE}{amount} {from_currency} = {converted_amount} {to_currency}{Style.RESET_ALL}\n")
-                        save_calculation2(f"{amount} {from_currency}", converted_amount, to_currency)
+                        converted_amount = convert_currency(amount, from_currency, to_currency)
+                        if converted_amount is None:
+                            print(f"{Fore.RED}One of the currencies is invalid or doesn't exist!{Style.RESET_ALL}")
+                            print(f"{Fore.RED}Please enter a valid currency!{Style.RESET_ALL}\n")
+                        else:
+                            print(f"{Fore.BLUE}{amount} {from_currency} = {converted_amount} {to_currency}{Style.RESET_ALL}\n")
+                            save_calculation2(f"{amount} {from_currency}", converted_amount, to_currency)
                 elif choice == 54:
                     amount = float(input(f"{Fore.CYAN}Enter the amount of cryptocurrency:{Style.RESET_ALL} "))
                     from_currency_acronym = input(f"{Fore.CYAN}Enter the cryptocurrency:{Style.RESET_ALL} ").upper()
                     to_currency = input(f"{Fore.CYAN}Enter the currency to convert to:{Style.RESET_ALL} ").upper()
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                    conversion_data = convert_to_currency(amount, from_currency_acronym, to_currency)
-                    if conversion_data is not None:
-                        converted_amount = conversion_data
-                        print(f"{Fore.BLUE}{amount} {from_currency_acronym} = {converted_amount} {to_currency}{Style.RESET_ALL}\n")
-                        save_calculation2(f"{amount} {from_currency_acronym}", converted_amount, to_currency)
+                    if not has_internet_connection():
+                        print(f"{Fore.RED}No internet connection!{Style.RESET_ALL}")
                     else:
-                        error_message = ""
-                        error_message2 = ""
-                        if conversion_data is None:
-                            error_message += f"{Fore.RED}Invalid cryptocurrency or currency!{Style.RESET_ALL}"
-                            error_message2 += f"{Fore.RED}Please enter a valid one.{Style.RESET_ALL}\n"
-                        print(error_message)
-                        print(error_message2)
+                        conversion_data = convert_to_currency(amount, from_currency_acronym, to_currency)
+                        if conversion_data is not None:
+                            converted_amount = conversion_data
+                            print(f"{Fore.BLUE}{amount} {from_currency_acronym} = {converted_amount} {to_currency}{Style.RESET_ALL}\n")
+                            save_calculation2(f"{amount} {from_currency_acronym}", converted_amount, to_currency)
+                        else:
+                            error_message = ""
+                            error_message2 = ""
+                            if conversion_data is None:
+                                error_message += f"{Fore.RED}Invalid cryptocurrency or currency!{Style.RESET_ALL}"
+                                error_message2 += f"{Fore.RED}Please enter a valid one.{Style.RESET_ALL}\n"
+                            print(error_message)
+                            print(error_message2)
                 elif choice == 55:
                     expression = input(f"{Fore.CYAN}Enter the binary expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     output = binary_calculator(expression)
-                    print(Fore.BLUE + output + Style.RESET_ALL)
-                    save_calculation4(output)
+                    if output != "":
+                        print(Fore.BLUE + output + Style.RESET_ALL)
+                        save_calculation4(output)
                 elif choice == 56:
                     expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
