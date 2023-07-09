@@ -26,7 +26,9 @@ Run the script using the command:
 
 `python3 nethermath.py`
 
-Enter the number of your desired operator.
+Enter `Login` to make an account.
+
+Once you've logged in type `h` or `help` for the commands.
 
 ## Features
 - Basic arithmetic operations: addition, subtraction, multiplication, division, and remainder.
