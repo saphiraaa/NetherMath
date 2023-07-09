@@ -122,7 +122,7 @@ Type 'Exit' or ^C to quit the program.
 5. To view previous calculations, choose the corresponding option from the menu.
 
 ## Note
-- The password for accessing the program is set to "Shredder". Modify the `password` variable in the code to change it.
+- You will need to make an account to use the tool first choose the command `Login` then it will ask you if you want to make an account for the tool.
 - The calculations are saved to a file named "calculations.txt" in the NetherMath directory. Modify the file path according to your desired path if necessary.
 - When using currency converter it needs internet because this code uses API to convert currency and cryptocurrency
 
