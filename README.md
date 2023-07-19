@@ -104,15 +104,28 @@ Once you've logged in type `h` or `help` for the commands.
 50. Ton to Grams
 51. Stone to Kilograms
 52. Kilograms to Stone
+    
+## Statistics
+53. Mean
+54. Median
+55. Mode
+56. Standard Deviation
+57. Variance
+58. Range
+59. Quartiles
+60. Interquartile Range
+61. Skewness
+62. Kurtosis
+63. Z-test
 
-## Currency
-53. Currency Converter
-54. Crytocurrency Converter
+## Currency 
+64. Currency Converter
+65. Cryptocurrency Converter
 
 ## Other Options
-55. Binary Calculator
-56. Evaluate Mixed Operation
-57. View Previous Calculations
+66. Binary Calculator
+67. Evaluate Mixed Operation
+68. View Previous Calculations
 
 
 Type 'h' or 'help' to list all the options available.
