@@ -11,6 +11,8 @@ import requests
 from requests.exceptions import RequestException, ConnectionError
 from cryptography.fernet import Fernet
 import hashlib
+import statistics
+from scipy.stats import skew, kurtosis
 
 PASSWORD_FILE = "password.txt"
 SALT_LENGTH = 16
@@ -656,6 +658,56 @@ def binary_calculator(expression):
 
     return output.replace("b", "")  # Remove 'b' from the binary result
 
+def calculate_mean(data):
+    return sum(data) / len(data)
+
+def calculate_median(data):
+    return statistics.median(data)
+
+def calculate_mode(data):
+    return statistics.mode(data)
+
+def calculate_standard_deviation(data):
+    return statistics.stdev(data)
+
+def calculate_variance(data):
+    return statistics.variance(data)
+
+def calculate_range(data):
+    return max(data) - min(data)
+
+def calculate_quartiles(data):
+    sorted_data = sorted(data)
+    n = len(data)
+    q1 = sorted_data[n // 4]
+    q2 = sorted_data[n // 2]
+    q3 = sorted_data[(3 * n) // 4]
+    return q1, q2, q3
+
+def calculate_interquartile_range(data):
+    q1, _, q3 = calculate_quartiles(data)
+    return q3 - q1
+
+def calculate_skewness(data):
+    return skew(data)
+
+def calculate_kurtosis(data):
+    return kurtosis(data)
+
+def determine_kurtosis_type(kurtosis_value):
+    if kurtosis_value > 0:
+        return "Leptokurtic"
+    elif kurtosis_value < 0:
+        return "Platykurtic"
+    else:
+        return "Mesokurtic"
+
+def calculate_z_test(data, hypothesized_mean, population_std_dev):
+    sample_mean = calculate_mean(data)
+    n = len(data)
+    z_score = (sample_mean - hypothesized_mean) / (population_std_dev / math.sqrt(n))
+    return z_score
+
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     calculation = f"{timestamp}: {expression} = {result}\n"
@@ -768,14 +820,27 @@ Weighing Scales
 51. Stone to Kilograms
 52. Kilograms to Stone
 
+Statistics and Probability
+53. Mean
+54. Median
+55. Mode
+56. Standard Deviation
+57. Variance
+58. Range
+59. Quartiles
+60. Interquartile Range
+61. Skewness
+62. Kurtosis
+63. Z-test
+
 Currency
-53. Currency Converter
-54. Crytocurrency Converter
+64. Currency Converter
+65. Crytocurrency Converter
 
 Other Options
-55. Binary Calculator
-56. Evaluate Mixed Operation
-57. View Previous Calculations
+66. Binary Calculator
+67. Evaluate Mixed Operation
+68. View Previous Calculations
 
 Type 'Exit' to quit the program.
     """
@@ -1112,6 +1177,120 @@ Type 'Exit' to quit the program.
                     print(f"{Fore.BLUE}Weight in stone: {result}{Style.RESET_ALL}\n")
                     save_calculation2(f"{weight} kilograms", result, "stone")
                 elif choice == 53:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Mean:", calculate_mean(dataset), "\n")
+                        save_calculation(f"Mean:", calculate_mean(dataset))
+                elif choice == 54:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Median:", calculate_median(dataset), "\n")
+                        save_calculation(f"Median:", calculate_median(dataset))
+                elif choice == 55:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Mode:", calculate_mode(dataset), "\n")
+                        save_calculation(f"Mode:", calculate_mode(dataset))
+                elif choice == 56:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Standard Deviation:", calculate_standard_deviation(dataset), "\n")
+                        save_calculation(f"Standard Deviation:", calculate_standard_deviation(dataset))
+                elif choice == 57:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Variance:", calculate_variance(dataset), "\n")
+                        save_calculation(f"Variance:", calculate_variance(dataset))
+                elif choice == 58:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Range:", calculate_range(dataset), "\n")
+                        save_calculation(f"Range:", calculate_range(dataset))
+                elif choice == 59:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Quartiles:", calculate_quartiles(dataset), "\n")
+                        save_calculation(f"Quartiles:", calculate_quartiles(dataset))
+                elif choice == 60:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Interquartile Range:", calculate_interquartile_range(dataset), "\n")
+                        save_calculation(f"Interquartile Range:", calculate_interquartile_range(dataset))
+                elif choice == 61:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Skewness:", calculate_skewness(dataset), "\n")
+                        save_calculation(f"Skewness:", calculate_skewness(dataset))
+                elif choice == 62:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        kurtosis_value = calculate_kurtosis(dataset)
+                        kurtosis_type = determine_kurtosis_type(kurtosis_value)
+                        print(f"{Fore.BLUE}Kurtosis: {kurtosis_value} ({kurtosis_type})\n")
+                        save_calculation2(f"Kurtosis:", kurtosis_value, kurtosis_type)
+                elif choice == 63:
+                    data_str = input(f"{Fore.CYAN}Enter the dataset (comma-separated values):{Style.RESET_ALL} ")
+                    if ',' not in data_str or ' ' not in data_str:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.RED}Error: Incorrect dataset format. Please separate values with commas and spaces.{Style.RESET_ALL} ")
+                    else:
+                        dataset = [float(x) for x in data_str.split(",")]
+                        hypothesized_mean = float(input(f"{Fore.CYAN}Enter the hypothesized mean:{Style.RESET_ALL} "))
+                        population_std_dev = float(input(f"{Fore.CYAN}Enter the population standard deviation:{Style.RESET_ALL} "))
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print(f"{Fore.BLUE}Z-test:", calculate_z_test(dataset, hypothesized_mean, population_std_dev), "\n")
+                        save_calculation(f"Z-test:", calculate_z_test(dataset, hypothesized_mean, population_std_dev))
+                elif choice == 64:
                     amount = float(input(f"{Fore.CYAN}Enter the amount to be converted:{Style.RESET_ALL} "))
                     from_currency = input(f"{Fore.CYAN}Enter the currency to convert from:{Style.RESET_ALL} ").upper()
                     to_currency = input(f"{Fore.CYAN}Enter the currency to convert to:{Style.RESET_ALL} ").upper()
@@ -1126,7 +1305,7 @@ Type 'Exit' to quit the program.
                         else:
                             print(f"{Fore.BLUE}{amount} {from_currency} = {converted_amount} {to_currency}{Style.RESET_ALL}\n")
                             save_calculation2(f"{amount} {from_currency}", converted_amount, to_currency)
-                elif choice == 54:
+                elif choice == 65:
                     amount = float(input(f"{Fore.CYAN}Enter the amount of cryptocurrency:{Style.RESET_ALL} "))
                     from_currency_acronym = input(f"{Fore.CYAN}Enter the cryptocurrency:{Style.RESET_ALL} ").upper()
                     to_currency = input(f"{Fore.CYAN}Enter the currency to convert to:{Style.RESET_ALL} ").upper()
@@ -1147,28 +1326,31 @@ Type 'Exit' to quit the program.
                                 error_message2 += f"{Fore.RED}Please enter a valid one.{Style.RESET_ALL}\n"
                             print(error_message)
                             print(error_message2)
-                elif choice == 55:
+                elif choice == 66:
                     expression = input(f"{Fore.CYAN}Enter the binary expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     output = binary_calculator(expression)
                     if output != "":
                         print(Fore.BLUE + output + Style.RESET_ALL)
                         save_calculation4(output)
-                elif choice == 56:
+                elif choice == 67:
                     expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     result = evaluate_expression(expression)
                     if result is not None:
                         print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
                         save_calculation(expression, result)
-                elif choice == 57:
+                elif choice == 68:
                     view_calculations()
                 else:
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                    print(f"{Fore.MAGENTA}Error: Invalid choice!!! Please enter a valid choice.{Style.RESET_ALL}\n")
+                    print(f"{Fore.RED}Error: Invalid choice!!! Please enter a valid choice.{Style.RESET_ALL}\n")
             else:
-                print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                print(f"{Fore.MAGENTA}Error: Invalid choice! Please enter a valid choice.{Style.RESET_ALL}\n")
+                print("Invalid option.")
+    except ValueError as e:
+        print(e)
+    except Exception as e:
+        print("An error occurred:", e)
 
     except KeyboardInterrupt:
         print(f"\n{Fore.MAGENTA}Exiting the calculator...{Style.RESET_ALL}")
