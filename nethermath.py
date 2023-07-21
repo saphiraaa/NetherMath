@@ -288,50 +288,6 @@ def forgot_password():
 def password_already_created():
     return os.path.exists(PASSWORD_FILE)
 
-def login_form():
-    if password_already_created():
-        enter_password()
-    else:
-        message = "You haven't created an account yet!!"
-        print(f"{Fore.RED}", end='', flush=True)
-        print_with_delay(message, 40)  # Adjust the delay per letter (in milliseconds) as desired
-        print(Style.RESET_ALL, "\n")
-        time.sleep(2)
-        choice = input(f"{Fore.YELLOW}Do you want to create a password now? (y/n):{Style.RESET_ALL} ").lower()
-        if choice == "y":
-            create_password()
-            enter_password()
-        else:
-            exit_message = "Login cancelled. Exiting...."
-            print(f"\n{Fore.MAGENTA}", end='', flush=True)
-            print_with_delay(exit_message, 40)  # Adjust the delay per letter (in milliseconds) as desired
-            print(Style.RESET_ALL, "\n")
-            sys.exit(0)
-
-def main():
-    while True:
-        choice = input(f"{Fore.CYAN}1. Login\n2. Forgot Password\n3. Exit\n\n>{Style.RESET_ALL} ")
-        if choice == "1":
-            login_form()
-        elif choice == "2":
-            forgot_password()
-        elif choice == "3":
-            exit_message = "Exiting the calculator..."
-            print(f"\n{Fore.MAGENTA}", end='', flush=True)
-            print_with_delay(exit_message, 40)  # Adjust the delay per letter (in milliseconds) as desired
-            print(Style.RESET_ALL, "\n")
-            sys.exit(1)
-        else:
-            exit_message = "Invalid choice!!"
-            print(f"\n{Fore.MAGENTA}", end='', flush=True)
-            print_with_delay(exit_message, 40)  # Adjust the delay per letter (in milliseconds) as desired
-            print(Style.RESET_ALL, "\n")
-            clear_terminal()
-            print(tool)
-
-if __name__ == "__main__":
-    main()
-
 def add(x, y):
     return x + y
 
@@ -1441,4 +1397,85 @@ Type 'Exit' to quit the program.
         print(Style.RESET_ALL, "\n")
         time.sleep(5)
 
-scientific_calculator()
+def enter_password():
+    attempts = 0
+    while attempts < MAX_LOGIN_ATTEMPTS:
+        clear_terminal()
+        print(tool)
+        password = getpass.getpass(f"{Fore.CYAN}Enter password:{Style.RESET_ALL} ")
+        with open(PASSWORD_FILE, "rb") as file:
+            saved_password = file.read()
+        with open(KEY_FILE, "rb") as key_file:
+            key = key_file.read()
+        decrypted_password = decrypt_password(saved_password[SALT_LENGTH:], key)
+        if hash_password(password, saved_password[:SALT_LENGTH]) == decrypted_password:
+            message = "Access granted! Proceeding with the program..."
+            print(f"\n{Fore.GREEN}", end='', flush=True)
+            print_with_delay(message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+            print(Style.RESET_ALL, "\n")
+            time.sleep(10)
+            scientific_calculator()
+        else:
+            message = "Password Incorrect! Access Denied.."
+            print(f"\n{Fore.RED}", end='', flush=True)
+            print_with_delay(message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+            print(Style.RESET_ALL, "\n")
+            attempts += 1
+            if attempts < MAX_LOGIN_ATTEMPTS:
+                time.sleep(2)
+                message = "Please try again.."
+                print(f"\n{Fore.MAGENTA}", end='', flush=True)
+                print_with_delay(message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+                print(Style.RESET_ALL, "\n")
+                time.sleep(LOGIN_ATTEMPT_DELAY)
+    time.sleep(2)
+    exit_message = "Maximum login attempts exceeded! Exiting..."
+    print(f"\n{Fore.RED}", end='', flush=True)
+    print_with_delay(exit_message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+    print(Style.RESET_ALL, "\n")
+    sys.exit(1)
+
+def login_form():
+    if password_already_created():
+        enter_password()
+    else:
+        message = "You haven't created an account yet!!"
+        print(f"{Fore.RED}", end='', flush=True)
+        print_with_delay(message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+        print(Style.RESET_ALL, "\n")
+        time.sleep(2)
+        choice = input(f"{Fore.YELLOW}Do you want to create a password now? (y/n):{Style.RESET_ALL} ").lower()
+        if choice == "y":
+            create_password()
+            enter_password()
+        else:
+            exit_message = "Login cancelled. Exiting...."
+            print(f"\n{Fore.MAGENTA}", end='', flush=True)
+            print_with_delay(exit_message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+            print(Style.RESET_ALL, "\n")
+            sys.exit(0)
+
+def main():
+    while True:
+        choice = input(f"{Fore.CYAN}1. Login\n2. Forgot Password\n3. Exit\n\n>{Style.RESET_ALL} ")
+        if choice == "1":
+            login_form()
+        elif choice == "2":
+            forgot_password()
+        elif choice == "3":
+            exit_message = "Exiting the calculator..."
+            print(f"\n{Fore.MAGENTA}", end='', flush=True)
+            print_with_delay(exit_message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+            print(Style.RESET_ALL, "\n")
+            sys.exit(1)
+        else:
+            exit_message = "Invalid choice!!"
+            print(f"\n{Fore.MAGENTA}", end='', flush=True)
+            print_with_delay(exit_message, 40)  # Adjust the delay per letter (in milliseconds) as desired
+            print(Style.RESET_ALL, "\n")
+            clear_terminal()
+            print(tool)
+
+if __name__ == "__main__":
+    main()
+
