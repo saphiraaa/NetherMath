@@ -123,9 +123,10 @@ Once you've logged in type `h` or `help` for the commands.
 65. Cryptocurrency Converter
 
 ## Other Options
-66. Binary Calculator
-67. Evaluate Mixed Operation
-68. View Previous Calculations
+66. Subnet Calculator
+67. Binary Calculator
+68. Evaluate Mixed Operation
+69. View Previous Calculations
 
 
 Type 'h' or 'help' to list all the options available.
