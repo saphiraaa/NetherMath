@@ -13,6 +13,7 @@ from cryptography.fernet import Fernet
 import hashlib
 import statistics
 from scipy.stats import skew, kurtosis
+import ipaddress
 
 PASSWORD_FILE = "password.txt"
 SALT_LENGTH = 16
@@ -740,9 +741,73 @@ def calculate_z_test(data, hypothesized_mean, population_std_dev):
     z_score = (sample_mean - hypothesized_mean) / (population_std_dev / math.sqrt(n))
     return z_score
 
+def validate_ip_address(ip_address):
+    try:
+        ipaddress.ip_address(ip_address)
+        return True
+    except ipaddress.AddressValueError:
+        return False
+
+
+def validate_subnet_mask(subnet_mask):
+    try:
+        if '/' in subnet_mask:
+            prefix_len = int(subnet_mask.split('/')[1])
+            if 0 <= prefix_len <= 128:
+                return True
+            else:
+                return False
+        else:
+            return False
+    except ValueError:
+        return False
+
+def calculate_subnet_details(ip_address, subnet_mask):
+    try:
+        ip_address_obj = ipaddress.ip_address(ip_address)
+    except ValueError:
+        # Invalid IP address
+        return {"Error": "Invalid IP Address"}
+
+    is_ipv4 = isinstance(ip_address_obj, ipaddress.IPv4Address)
+
+    # Get the CIDR notation of the subnet mask
+    if '/' in subnet_mask:
+        cidr_notation = int(subnet_mask.split('/')[1])
+    else:
+        cidr_notation = None
+
+    network = ipaddress.IPv4Network(f"{ip_address}/{cidr_notation}", strict=False) if is_ipv4 \
+        else ipaddress.IPv6Network(f"{ip_address}/{cidr_notation}", strict=False)
+
+    # Get the binary representation of the subnet mask
+    #subnet_mask_binary = str(cidr_notation) if not is_ipv4 else '.'.join(format(int(x), '08b') for x in network.netmask.packed)
+    subnet_mask_binary = '.'.join(format(int(x), '08b') for x in network.netmask.packed)
+
+
+    # For IPv6 addresses, calculate the number of hosts (usable IPs)
+    if not is_ipv4 and cidr_notation == 64:
+        num_hosts = 2 ** (128 - cidr_notation) - 2
+    else:
+        num_hosts = network.num_addresses - 2
+
+    subnet_details = {
+        "IP Address": str(ip_address_obj),
+        "IPv4/IPv6": "IPv4" if is_ipv4 else "IPv6",
+        "Subnet Mask": subnet_mask,
+        "Binary Representation of Subnet Mask": subnet_mask_binary,
+        "Network Address": str(network.network_address),
+        "Usable IP Range": f"{str(network.network_address + 1)} to {str(network.network_address + network.num_addresses - 2)}",
+        "Total Number of IPs": network.num_addresses,
+        "Number of Usable IPs": num_hosts,
+        "Number of Hosts": num_hosts
+    }
+
+    return subnet_details
+
 def save_calculation(expression, result):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    calculation = f"{timestamp}: {expression} = {result}\n"
+    calculation = f"\n{timestamp}: {expression} = {result}\n"
 
     with open("calculations.txt", "a") as file:
         file.write(calculation)
@@ -751,7 +816,7 @@ def save_calculation(expression, result):
 
 def save_calculation2(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    calculation = f"{timestamp}: {expression} = {result} {statement}\n"
+    calculation = f"\n{timestamp}: {expression} = {result} {statement}\n"
 
     with open("calculations.txt", "a") as file:
         file.write(calculation)
@@ -760,7 +825,7 @@ def save_calculation2(expression, result, statement):
 
 def save_calculation3(expression, result, statement):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    calculation = f"{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
+    calculation = f"\n{timestamp}: {expression} = {result:.3f} * 10^{statement}\n"
 
     with open("calculations.txt", "a") as file:
         file.write(calculation)
@@ -769,12 +834,25 @@ def save_calculation3(expression, result, statement):
 
 def save_calculation4(expression):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    calculation = f"{timestamp}: {expression}\n"
+    calculation = f"\n{timestamp}: {expression}\n"
 
     with open("calculations.txt", "a") as file:
         file.write(calculation)
 
     print(f"{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
+
+def save_calculation5(subnet_details):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("calculations.txt", "a") as file:
+        file.write(f"\n{timestamp}\n")
+        file.write("Network: {}\n".format(subnet_details["Network Address"]))
+        file.write("Subnet Mask: {}\n\n".format(subnet_details["Subnet Mask"]))
+
+        file.write("Subnet Details:\n")
+        for key, value in subnet_details.items():
+            file.write("{}: {}\n".format(key, value))
+
+        print(f"\n{Fore.GREEN}Calculation saved to calculations.txt.{Style.RESET_ALL}")
 
 def view_calculations():
     try:
@@ -870,9 +948,10 @@ Currency
 65. Crytocurrency Converter
 
 Other Options
-66. Binary Calculator
-67. Evaluate Mixed Operation
-68. View Previous Calculations
+66. Subnet Calculator
+67. Binary Calculator
+68. Evaluate Mixed Operation
+69. View Previous Calculations
 
 Type 'Exit' to quit the program.
     """
@@ -1359,20 +1438,38 @@ Type 'Exit' to quit the program.
                             print(error_message)
                             print(error_message2)
                 elif choice == 66:
+                    ip_address = input(f"{Fore.CYAN}Network:{Style.RESET_ALL} ")
+                    subnet_mask = input(f"{Fore.CYAN}Subnet Mask:{Style.RESET_ALL} ")
+
+                    if not validate_ip_address(ip_address) or not validate_subnet_mask(subnet_mask):
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        print("Invalid IP address or subnet mask. Please try again.\n")
+
+                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                    subnet_details = calculate_subnet_details(ip_address, subnet_mask)
+
+                    if "Error" in subnet_details:
+                        print(subnet_details["Error"])
+                    else:
+                        print(f"\n{Fore.BLUE}Subnet Details:")
+                        for key, value in subnet_details.items():
+                            print(f"{key}: {value}")
+                        save_calculation5(subnet_details)
+                elif choice == 67:
                     expression = input(f"{Fore.CYAN}Enter the binary expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     output = binary_calculator(expression)
                     if output != "":
                         print(Fore.BLUE + output + Style.RESET_ALL)
                         save_calculation4(output)
-                elif choice == 67:
+                elif choice == 68:
                     expression = input(f"{Fore.CYAN}Enter the expression:{Style.RESET_ALL} ")
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
                     result = evaluate_expression(expression)
                     if result is not None:
                         print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}\n")
                         save_calculation(expression, result)
-                elif choice == 68:
+                elif choice == 69:
                     view_calculations()
                 else:
                     print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
