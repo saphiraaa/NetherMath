@@ -1443,14 +1443,10 @@ Type 'Exit' to quit the program.
 
                     if not validate_ip_address(ip_address) or not validate_subnet_mask(subnet_mask):
                         print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                        print("Invalid IP address or subnet mask. Please try again.\n")
-
-                    print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
-                    subnet_details = calculate_subnet_details(ip_address, subnet_mask)
-
-                    if "Error" in subnet_details:
-                        print(subnet_details["Error"])
+                        print(f"{Fore.RED}Invalid IP address or subnet mask. Please try again.\n") 
                     else:
+                        print(f"{Fore.MAGENTA}----------------------------{Style.RESET_ALL}")
+                        subnet_details = calculate_subnet_details(ip_address, subnet_mask)
                         print(f"\n{Fore.BLUE}Subnet Details:")
                         for key, value in subnet_details.items():
                             print(f"{key}: {value}")
