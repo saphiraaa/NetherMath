@@ -118,15 +118,22 @@ Once you've logged in type `h` or `help` for the commands.
 62. Kurtosis
 63. Z-test
 
+## Roman Numerals
+64. Integer to Roman
+65. Roman to Integer
+
 ## Currency 
-64. Currency Converter
-65. Cryptocurrency Converter
+65. Currency Converter
+66. Cryptocurrency Converter
 
 ## Other Options
-66. Subnet Calculator
-67. Binary Calculator
-68. Evaluate Mixed Operation
-69. View Previous Calculations
+68. Subnet Calculator
+69. Mortgage Calculator
+70. Binary Calculator
+71. Table List
+72. Slovin's Formula
+73. Evaluate Mixed Operation
+74. View Previous Calculations
 
 
 Type 'h' or 'help' to list all the options available.
@@ -147,5 +154,5 @@ Type 'Exit' or ^C to quit the program.
 - When using currency converter it needs internet because this code uses API to convert currency and cryptocurrency
 
 ## Developer
-This code is created by Navi/Saphiraaa...
+saphiraaa
 
