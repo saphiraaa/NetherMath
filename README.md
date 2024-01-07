@@ -2,7 +2,11 @@
 
 This Python program is a scientific calculator or I can say an advanced calculator that performs various mathematical operations. It includes functions for basic arithmetic operations, trigonometric functions, logarithms, exponentiation, conversions, and more.
 
-## Installation
+## Install using PIP
+
+`pip3 install nethermath`
+
+## Manual Installation
 
 Open the terminal or command prompt
 
